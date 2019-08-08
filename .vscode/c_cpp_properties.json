@@ -3,16 +3,16 @@
         {
             "name": "Win32",
             "includePath": [
-                "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp8266\\tools\\**",
-                "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.4.2\\**",
                 "${workspaceRoot}",
+                "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp8266\\tools\\**",
+                "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.5.2\\**",
                 "C:\\Users\\${env:USERNAME}\\Documents\\Arduino\\libraries\\MAX6675_library",
                 "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino",
                 "C:\\Program Files (x86)\\Arduino\\hardware\\tools\\avr\\avr\\include",
                 "C:\\Program Files (x86)\\Arduino\\hardware\\tools\\avr\\i686-w64-mingw32\\avr\\include"
             ],
             "forcedInclude": [
-                "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.4.2\\cores\\esp8266\\Arduino.h"
+                "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.5.2\\cores\\esp8266\\Arduino.h"
             ],
             "intelliSenseMode": "msvc-x64",
             "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64/cl.exe",
@@ -23,10 +23,37 @@
                 "path": [
                     "${workspaceRoot}",
                     "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp8266\\tools\\**",
-                    "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.4.2\\**",
+                    "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.5.2\\**",
                     "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino",
                     "C:\\Program Files (x86)\\Arduino\\hardware\\tools\\avr\\avr\\include",
                     "C:\\Program Files (x86)\\Arduino\\hardware\\tools\\avr\\i686-w64-mingw32\\avr\\include"
+                ]
+            },
+            "defines": [
+                "USBCON"
+            ]
+        },
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceRoot}",
+                "/home/${env:USERNAME}/Arduino/libraries/MAX6675_library",
+                "/home/${env:USERNAME}/.arduino15/packages/esp8266/hardware/esp8266/2.5.2/**",
+                "/home/${env:USERNAME}/.arduino15/packages/esp8266/tools/**",
+                "/usr/share/arduino/hardware/arduino/avr/cores/arduino"
+            ],
+            "forcedInclude": [
+                "/home/${env:USERNAME}/.arduino15/packages/esp8266/hardware/esp8266/2.5.2/cores/esp8266/Arduino.h"
+            ],
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "browse": {
+                "limitSymbolsToIncludedHeaders": false,
+                "path": [
+                    "${workspaceRoot}",
+                    "/home/${env:USERNAME}/Arduino/libraries/MAX6675_library",
+                    "/home/${env:USERNAME}/.arduino15/packages/esp8266/hardware/esp8266/2.5.2/**",
+                    "/home/${env:USERNAME}/.arduino15/packages/esp8266/tools/**"
                 ]
             },
             "defines": [

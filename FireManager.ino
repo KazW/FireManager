@@ -5,7 +5,7 @@
 #include <max6675.h>
 
 int ktcSO = D6;
-int ktcCS = D6;
+int ktcCS = D7;
 int ktcCLK = D5;
 
 MAX6675 ktc(ktcCLK, ktcCS, ktcSO);
@@ -27,6 +27,6 @@ void setup()
 void loop()
 {
   Serial.print("C = ");
-  Serial.print(ktc.readCelsius());
+  Serial.println(ktc.readCelsius());
   delay(1000);
 }
