@@ -3,7 +3,7 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceRoot}",
+                "${workspaceRoot}/firmware",
                 "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp8266\\tools\\**",
                 "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.5.2\\**",
                 "C:\\Users\\${env:USERNAME}\\Documents\\Arduino\\libraries\\MAX6675_library",
@@ -21,7 +21,7 @@
             "browse": {
                 "limitSymbolsToIncludedHeaders": false,
                 "path": [
-                    "${workspaceRoot}",
+                    "${workspaceRoot}/firmware",
                     "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp8266\\tools\\**",
                     "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.5.2\\**",
                     "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino",
@@ -36,7 +36,7 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceRoot}",
+                "${workspaceRoot}/firmware",
                 "/home/${env:USERNAME}/Arduino/libraries/MAX6675_library",
                 "/home/${env:USERNAME}/.arduino15/packages/esp8266/hardware/esp8266/2.5.2/**",
                 "/home/${env:USERNAME}/.arduino15/packages/esp8266/tools/**",
@@ -50,7 +50,7 @@
             "browse": {
                 "limitSymbolsToIncludedHeaders": false,
                 "path": [
-                    "${workspaceRoot}",
+                    "${workspaceRoot}/firmware",
                     "/home/${env:USERNAME}/Arduino/libraries/MAX6675_library",
                     "/home/${env:USERNAME}/.arduino15/packages/esp8266/hardware/esp8266/2.5.2/**",
                     "/home/${env:USERNAME}/.arduino15/packages/esp8266/tools/**"
