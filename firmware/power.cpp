@@ -10,14 +10,26 @@ void Power::init()
   pinMode(pin, WAKEUP_PULLUP);
 }
 
-double Power::batteryVoltage()
+void Power::update()
 {
-  return 4.20;
+  if (sleepStatus)
+    sleepNow(sleepTime);
+}
+
+double Power::getBatteryVoltage()
+{
+  return batteryVoltage;
+}
+
+bool Power::lowBattery()
+{
+  return batteryVoltage <= lowBatteryVoltage;
 }
 
 void Power::sleepNow(unsigned long duration)
 {
   ESP.deepSleep(duration);
+  delay(deepSleepDelay);
 }
 
 void Power::setSleepStatus(bool sleepStatus)
@@ -28,10 +40,4 @@ void Power::setSleepStatus(bool sleepStatus)
 void Power::setSleepTime(unsigned long sleepTime)
 {
   this->sleepTime = sleepTime;
-}
-
-void Power::update()
-{
-  if (sleepStatus)
-    sleepNow(sleepTime);
 }

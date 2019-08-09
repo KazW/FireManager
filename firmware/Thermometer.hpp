@@ -15,5 +15,6 @@ private:
   byte pinCS;
   byte pinCLK;
   MAX6675 *ktc;
+  int settleDelay = 1000;
   double temperature;
 };

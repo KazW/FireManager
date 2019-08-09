@@ -13,6 +13,7 @@ void setup()
     ;
   Serial.println("");
   Serial.println("Booted.");
+
   fireManager.init();
 }
 

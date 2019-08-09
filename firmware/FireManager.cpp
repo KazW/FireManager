@@ -18,12 +18,10 @@ void FireManager::init()
 
 void FireManager::verify()
 {
-  if (power->batteryVoltage() <= lowBatteryVoltage)
+  if (power->lowBattery())
   {
-    // audio->ping();
-    // audio->ping();
     // TODO flash LEDs
-    power->sleepNow(300 * 1e6); // Sleep for 5 minutes
+    power->sleepNow(lowBatterySleepTime);
   }
 }
 
@@ -42,6 +40,7 @@ void FireManager::update()
   // Sleep or loop
   network->update();
   power->update();
+  delay(updateDelay);
 }
 
 void FireManager::detect() {}

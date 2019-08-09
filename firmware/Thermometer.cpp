@@ -11,7 +11,7 @@ void Thermometer::init()
 {
   MAX6675 ktc = MAX6675(pinCLK, pinCS, pinSO);
   this->ktc = &ktc;
-  delay(500);
+  delay(settleDelay);
   update();
 }
 

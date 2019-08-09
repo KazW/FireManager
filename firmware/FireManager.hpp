@@ -22,8 +22,9 @@ private:
   bool alarm;
 
   // Constants
-  double lowBatteryVoltage = 3.7;
   double temperaturePowerThreshold = 125;
+  int lowBatterySleepTime = 5 * 60 * 1e6;
+  int updateDelay = 1000;
 
   // Functions
   void verify();
