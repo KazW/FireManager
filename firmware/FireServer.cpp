@@ -19,6 +19,8 @@ void FireServer::update()
   if (!serverStarted && network->online())
   {
     server->begin();
+    this->serverStarted = true;
+    Serial.println("Web server started!");
   }
   else
   {
@@ -28,18 +30,22 @@ void FireServer::update()
 
 void FireServer::handleRoot()
 {
+  Serial.println("Serving root page.");
   if (network->wifiClient())
   {
+    Serial.println("Serving interface page.");
     server->send(200, "text/plain", "Hello from FireManager, WiFi configured!");
   }
   else
   {
+    Serial.println("Serving WiFi config page.");
     server->send(200, "text/plain", "Hello from FireManager, please configure WiFi!");
   }
 }
 
 void FireServer::handleNotFound()
 {
+  Serial.println("Serving not found page.");
   String message = "File Not Found\n\n";
   message += "URI: ";
   message += server->uri();
