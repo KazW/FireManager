@@ -1,16 +1,15 @@
 #include "Thermometer.hpp"
 
-Thermometer::Thermometer(byte pinCLK, byte pinCS, byte pinSO)
+Thermometer::Thermometer(byte pinSCK, byte pinCS, byte pinSO)
 {
-  this->pinCLK = pinCLK;
+  this->pinSCK = pinSCK;
   this->pinCS = pinCS;
   this->pinSO = pinSO;
 }
 
 void Thermometer::init()
 {
-  MAX6675 ktc = MAX6675(pinCLK, pinCS, pinSO);
-  this->ktc = &ktc;
+  this->thermocouple = new MAX6675_Thermocouple(pinSCK, pinCS, pinSO);
   delay(initDelay);
   sample();
   this->lastSample = millis();
@@ -27,7 +26,7 @@ void Thermometer::update()
 
 void Thermometer::sample()
 {
-  this->temperature = this->ktc->readFahrenheit();
+  this->temperature = thermocouple->readFahrenheit();
   Serial.print("F = ");
   Serial.println(temperature);
 }

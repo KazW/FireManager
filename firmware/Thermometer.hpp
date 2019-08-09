@@ -1,6 +1,7 @@
 #pragma once
 #include <Arduino.h>
-#include <max6675.h>
+#include <Thermocouple.h>
+#include <MAX6675_Thermocouple.h>
 
 class Thermometer
 {
@@ -15,10 +16,10 @@ private:
   void sample();
   byte pinSO;
   byte pinCS;
-  byte pinCLK;
-  MAX6675 *ktc;
+  byte pinSCK;
+  Thermocouple *thermocouple;
   int initDelay = 1000;
-  unsigned long sampleRate = 1e6;
+  unsigned long sampleRate = 1000;
   unsigned long lastSample;
   double temperature;
 };

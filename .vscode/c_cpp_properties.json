@@ -7,7 +7,7 @@
                 "C:\\Users\\${env:USERNAME}\\Documents\\Arduino\\libraries\\ArduinoJson\\src",
                 "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp8266\\tools\\**",
                 "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.5.2\\**",
-                "C:\\Users\\${env:USERNAME}\\Documents\\Arduino\\libraries\\MAX6675_library",
+                "C:\\Users\\${env:USERNAME}\\Documents\\Arduino\\libraries\\MAX6675_Thermocouple",
                 "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino",
                 "C:\\Program Files (x86)\\Arduino\\hardware\\tools\\avr\\avr\\include",
                 "C:\\Program Files (x86)\\Arduino\\hardware\\tools\\avr\\i686-w64-mingw32\\avr\\include"
@@ -22,7 +22,7 @@
                 "path": [
                     "${workspaceRoot}/firmware",
                     "C:\\Users\\${env:USERNAME}\\Documents\\Arduino\\libraries\\ArduinoJson\\src",
-                    "C:\\Users\\${env:USERNAME}\\Documents\\Arduino\\libraries\\MAX6675_library",
+                    "C:\\Users\\${env:USERNAME}\\Documents\\Arduino\\libraries\\MAX6675_Thermocouple",
                     "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp8266\\tools\\**",
                     "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.5.2\\**",
                     "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino",
@@ -40,7 +40,7 @@
             "includePath": [
                 "${workspaceRoot}/firmware",
                 "/home/${env:USERNAME}/Arduino/libraries/ArduinoJson/src",
-                "/home/${env:USERNAME}/Arduino/libraries/MAX6675_library",
+                "/home/${env:USERNAME}/Arduino/libraries/MAX6675_Thermocouple",
                 "/home/${env:USERNAME}/.arduino15/packages/esp8266/hardware/esp8266/2.5.2/**",
                 "/home/${env:USERNAME}/.arduino15/packages/esp8266/tools/**",
                 "/usr/share/arduino/hardware/arduino/avr/cores/arduino"
@@ -55,7 +55,7 @@
                 "path": [
                     "${workspaceRoot}/firmware",
                     "/home/${env:USERNAME}/Arduino/libraries/ArduinoJson/src",
-                    "/home/${env:USERNAME}/Arduino/libraries/MAX6675_library",
+                    "/home/${env:USERNAME}/Arduino/libraries/MAX6675_Thermocouple",
                     "/home/${env:USERNAME}/.arduino15/packages/esp8266/hardware/esp8266/2.5.2/**",
                     "/home/${env:USERNAME}/.arduino15/packages/esp8266/tools/**"
                 ]
