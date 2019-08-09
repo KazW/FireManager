@@ -12,6 +12,7 @@ public:
   void init(FileSystem *, Parser *);
   void update();
   bool online();
+  bool wifiClient();
 
 private:
   void startWiFiAp();

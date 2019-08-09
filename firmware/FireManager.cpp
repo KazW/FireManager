@@ -23,7 +23,7 @@ void FireManager::init()
   parser->init(filesystem);
   thermometer->init();
   network->init(filesystem, parser);
-  server->init();
+  server->init(filesystem, network);
 
   verify();
 }

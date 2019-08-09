@@ -1,7 +1,9 @@
 #include "FireServer.hpp"
 
-void FireServer::init()
+void FireServer::init(FileSystem *filesystem, Network *network)
 {
+  this->filesystem = filesystem;
+  this->network = network;
   this->server = new ESP8266WebServer(serverPort);
 
   server->on("/", [this]() {
@@ -10,18 +12,30 @@ void FireServer::init()
   server->onNotFound([this]() {
     this->handleNotFound();
   });
-
-  server->begin();
 }
 
 void FireServer::update()
 {
-  server->handleClient();
+  if (!serverStarted && network->online())
+  {
+    server->begin();
+  }
+  else
+  {
+    server->handleClient();
+  }
 }
 
 void FireServer::handleRoot()
 {
-  server->send(200, "text/plain", "Hello from FireManager!");
+  if (network->wifiClient())
+  {
+    server->send(200, "text/plain", "Hello from FireManager, WiFi configured!");
+  }
+  else
+  {
+    server->send(200, "text/plain", "Hello from FireManager, please configure WiFi!");
+  }
 }
 
 void FireServer::handleNotFound()

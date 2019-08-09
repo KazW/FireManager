@@ -46,6 +46,11 @@ bool Network::online()
   return wifiOnline && mDNSOnline;
 }
 
+bool Network::wifiClient()
+{
+  return clientMode;
+}
+
 void Network::startWiFiAp()
 {
   WiFi.softAPConfig(apIP, apGateway, apSubnet);
