@@ -5,7 +5,7 @@ void FileSystem::init()
   SPIFFS.begin();
 
   if (!SPIFFS.exists(configDir))
-    SPIFFS.mkdir("/config");
+    SPIFFS.mkdir(configDir);
 }
 
 bool FileSystem::wifiConfigured()
