@@ -23,7 +23,6 @@ void Network::update()
   if (clientMode && !wifiOnline && WiFi.status() == WL_CONNECTED)
   {
     this->wifiOnline = true;
-    this->connectedAt = millis();
     Serial.println("WiFi Connected!");
     Serial.print("Device IP address: ");
     Serial.println(WiFi.localIP());
@@ -56,7 +55,6 @@ void Network::startWiFiAp()
 
   if (wifiOnline)
   {
-    this->connectedAt = millis();
     this->hostname = apHost;
     Serial.println("WiFi ap started!");
   }

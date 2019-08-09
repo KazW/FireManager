@@ -31,7 +31,6 @@ private:
 
   bool clientMode;
   const char *hostname;
-  unsigned long connectedAt;
   bool wifiOnline;
   bool mDNSOnline;
 };
