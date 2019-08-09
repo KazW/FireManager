@@ -11,16 +11,30 @@ void Thermometer::init()
 {
   MAX6675 ktc = MAX6675(pinCLK, pinCS, pinSO);
   this->ktc = &ktc;
-  delay(settleDelay);
-  update();
+  delay(initDelay);
+  sample();
+  this->lastSample = millis();
 }
 
 void Thermometer::update()
 {
-  double temperature = this->ktc->readFahrenheit();
-  this->temperature = temperature;
+  if (shouldSample())
+  {
+    sample();
+    this->lastSample = millis();
+  }
+}
+
+void Thermometer::sample()
+{
+  this->temperature = this->ktc->readFahrenheit();
   Serial.print("F = ");
   Serial.println(temperature);
+}
+
+bool Thermometer::shouldSample()
+{
+  return millis() - lastSample >= sampleRate;
 }
 
 double Thermometer::getTemperature()

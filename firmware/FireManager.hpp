@@ -19,6 +19,10 @@ public:
   void update();
 
 private:
+  // Functions
+  void verify();
+  void detect();
+
   // Hardware and Peripherals
   Power *power;
   FileSystem *filesystem;
@@ -32,9 +36,4 @@ private:
   // Constants
   double temperaturePowerThreshold = 125;
   unsigned long lowBatterySleepTime = 5 * 60 * 1e6;
-  int updateDelay = 1000;
-
-  // Functions
-  void verify();
-  void detect();
 };

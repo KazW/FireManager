@@ -49,7 +49,6 @@ void FireManager::update()
   // Sleep or loop
   network->update();
   power->update();
-  delay(updateDelay);
 }
 
 void FireManager::detect() {}

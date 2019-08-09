@@ -9,12 +9,16 @@ public:
   void init();
   void update();
   double getTemperature();
+  bool shouldSample();
 
 private:
+  void sample();
   byte pinSO;
   byte pinCS;
   byte pinCLK;
   MAX6675 *ktc;
-  int settleDelay = 1000;
+  int initDelay = 1000;
+  unsigned long sampleRate = 1e6;
+  unsigned long lastSample;
   double temperature;
 };
