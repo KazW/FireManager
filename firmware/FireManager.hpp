@@ -1,8 +1,8 @@
 #pragma once
-
 #include <Arduino.h>
 #include "Power.hpp"
 #include "FileSystem.hpp"
+#include "Parser.hpp"
 #include "Thermometer.hpp"
 #include "Network.hpp"
 
@@ -12,6 +12,7 @@ public:
   FireManager(
       Power *,
       FileSystem *,
+      Parser *,
       Thermometer *,
       Network *);
   void init();
@@ -21,6 +22,7 @@ private:
   // Hardware and Peripherals
   Power *power;
   FileSystem *filesystem;
+  Parser *parser;
   Thermometer *thermometer;
   Network *network;
 
@@ -29,7 +31,7 @@ private:
 
   // Constants
   double temperaturePowerThreshold = 125;
-  int lowBatterySleepTime = 5 * 60 * 1e6;
+  unsigned long lowBatterySleepTime = 5 * 60 * 1e6;
   int updateDelay = 1000;
 
   // Functions

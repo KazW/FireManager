@@ -2,12 +2,14 @@
 
 Power power = Power(D0);
 FileSystem filesystem = FileSystem();
+Parser parser = Parser();
 Thermometer thermometer = Thermometer(D5, D7, D6);
 Network network = Network();
 
 FireManager firemanager = FireManager(
     &power,
     &filesystem,
+    &parser,
     &thermometer,
     &network);
 

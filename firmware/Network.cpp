@@ -1,22 +1,44 @@
 #include "Network.hpp"
 
-void Network::init(FileSystem *filesystem)
+void Network::init(FileSystem *filesystem, Parser *parser)
 {
   this->filesystem = filesystem;
-  startWiFi();
+  this->parser = parser;
+  this->clientMode = filesystem->wifiConfigured();
+
+  if (clientMode)
+  {
+    startWiFiClient();
+  }
+  else
+  {
+    startWiFiAp();
+  }
+
   startmDNS();
 }
 
 void Network::update()
 {
-  if (!wifiOnline)
-    return;
+  if (clientMode && !wifiOnline && WiFi.status() == WL_CONNECTED)
+  {
+    this->wifiOnline = true;
+    this->connectedAt = millis();
+    Serial.println("WiFi Connected!");
+    Serial.print("Device IP address: ");
+    Serial.println(WiFi.localIP());
+  }
+
+  if (!clientMode && !wifiOnline)
+  {
+    startWiFiAp();
+  }
 
   if (mDNSOnline)
   {
     MDNS.update();
   }
-  else
+  else if (wifiOnline)
   {
     startmDNS();
   }
@@ -27,40 +49,42 @@ bool Network::online()
   return wifiOnline && mDNSOnline;
 }
 
-void Network::startWiFi()
+void Network::startWiFiAp()
 {
-  WiFi.mode(WIFI_STA);
-  WiFi.hostname(HOSTNAME);
-  WiFi.begin(WIFI_SSID, WIFI_PASS);
+  WiFi.softAPConfig(apIP, apGateway, apSubnet);
+  this->wifiOnline = WiFi.softAP(apSSID, apPassword);
 
-  Serial.print("Trying to connect to WiFi: ");
-  Serial.println(WIFI_SSID);
-  Serial.print("Connecting");
-
-  for (int i = 0; WiFi.status() != WL_CONNECTED || i <= maxConnectDelays; i++)
-  {
-    Serial.print(".");
-    delay(connectDelay);
-  }
-
-  this->wifiOnline = WiFi.status() == WL_CONNECTED;
   if (wifiOnline)
   {
-    Serial.println(" Connected!");
-    Serial.print("Device IP address: ");
-    Serial.println(WiFi.localIP());
+    this->connectedAt = millis();
+    this->hostname = apHost;
+    Serial.println("WiFi ap started!");
   }
   else
   {
-    Serial.println(" Failed!");
+    Serial.println("WiFi ap failed to start!");
   }
 }
+
+void Network::startWiFiClient()
+{
+  this->config = this->parser->parseWifiConfig();
+  this->hostname = config.host;
+
+  WiFi.mode(WIFI_STA);
+  WiFi.hostname(hostname);
+  WiFi.begin(config.ssid, config.password);
+
+  Serial.print("Trying to connect to WiFi: ");
+  Serial.println(config.ssid);
+}
+
 void Network::startmDNS()
 {
   if (!wifiOnline)
     return;
 
-  this->mDNSOnline = MDNS.begin(HOSTNAME);
+  this->mDNSOnline = MDNS.begin(hostname);
   if (mDNSOnline)
   {
     Serial.println("Started mDNS.");

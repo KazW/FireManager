@@ -4,6 +4,7 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceRoot}/firmware",
+                "C:\\Users\\${env:USERNAME}\\Documents\\Arduino\\libraries\\ArduinoJson\\src",
                 "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp8266\\tools\\**",
                 "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.5.2\\**",
                 "C:\\Users\\${env:USERNAME}\\Documents\\Arduino\\libraries\\MAX6675_library",
@@ -11,9 +12,7 @@
                 "C:\\Program Files (x86)\\Arduino\\hardware\\tools\\avr\\avr\\include",
                 "C:\\Program Files (x86)\\Arduino\\hardware\\tools\\avr\\i686-w64-mingw32\\avr\\include"
             ],
-            "forcedInclude": [
-                "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.5.2\\cores\\esp8266\\Arduino.h"
-            ],
+            "forcedInclude": [],
             "intelliSenseMode": "msvc-x64",
             "compilerPath": "C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64/cl.exe",
             "cStandard": "c11",
@@ -22,6 +21,8 @@
                 "limitSymbolsToIncludedHeaders": false,
                 "path": [
                     "${workspaceRoot}/firmware",
+                    "C:\\Users\\${env:USERNAME}\\Documents\\Arduino\\libraries\\ArduinoJson\\src",
+                    "C:\\Users\\${env:USERNAME}\\Documents\\Arduino\\libraries\\MAX6675_library",
                     "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp8266\\tools\\**",
                     "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.5.2\\**",
                     "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino",
@@ -30,13 +31,15 @@
                 ]
             },
             "defines": [
-                "USBCON"
+                "USBCON",
+                "ARDUINO=189"
             ]
         },
         {
             "name": "Linux",
             "includePath": [
                 "${workspaceRoot}/firmware",
+                "/home/${env:USERNAME}/Arduino/libraries/ArduinoJson/src",
                 "/home/${env:USERNAME}/Arduino/libraries/MAX6675_library",
                 "/home/${env:USERNAME}/.arduino15/packages/esp8266/hardware/esp8266/2.5.2/**",
                 "/home/${env:USERNAME}/.arduino15/packages/esp8266/tools/**",
@@ -51,13 +54,15 @@
                 "limitSymbolsToIncludedHeaders": false,
                 "path": [
                     "${workspaceRoot}/firmware",
+                    "/home/${env:USERNAME}/Arduino/libraries/ArduinoJson/src",
                     "/home/${env:USERNAME}/Arduino/libraries/MAX6675_library",
                     "/home/${env:USERNAME}/.arduino15/packages/esp8266/hardware/esp8266/2.5.2/**",
                     "/home/${env:USERNAME}/.arduino15/packages/esp8266/tools/**"
                 ]
             },
             "defines": [
-                "USBCON"
+                "USBCON",
+                "ARDUINO=189"
             ]
         }
     ],

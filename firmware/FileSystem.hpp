@@ -7,6 +7,7 @@ class FileSystem
 public:
   void init();
   bool wifiConfigured();
+  char *getWifiConfig();
 
 private:
   char *wifiConfigFile = "/config/wifi.json";

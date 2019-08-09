@@ -3,11 +3,13 @@
 FireManager::FireManager(
     Power *power,
     FileSystem *filesystem,
+    Parser *parser,
     Thermometer *thermometer,
     Network *network)
 {
   this->power = power;
   this->filesystem = filesystem;
+  this->parser = parser;
   this->thermometer = thermometer;
   this->network = network;
 }
@@ -16,8 +18,9 @@ void FireManager::init()
 {
   power->init();
   filesystem->init();
+  parser->init(filesystem);
   thermometer->init();
-  network->init(filesystem);
+  network->init(filesystem, parser);
 
   verify();
 }
