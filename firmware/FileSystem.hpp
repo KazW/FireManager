@@ -10,5 +10,6 @@ public:
   char *getWifiConfig();
 
 private:
+  char *configDir = "/config";
   char *wifiConfigFile = "/config/wifi.json";
 };

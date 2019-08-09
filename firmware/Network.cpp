@@ -29,9 +29,7 @@ void Network::update()
   }
 
   if (!clientMode && !wifiOnline)
-  {
     startWiFiAp();
-  }
 
   if (mDNSOnline)
   {
