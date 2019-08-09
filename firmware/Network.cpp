@@ -1,7 +1,8 @@
 #include "Network.hpp"
 
-void Network::init()
+void Network::init(FileSystem *filesystem)
 {
+  this->filesystem = filesystem;
   startWiFi();
   startmDNS();
 }

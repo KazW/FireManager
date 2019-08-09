@@ -2,19 +2,25 @@
 
 #include <Arduino.h>
 #include "Power.hpp"
+#include "FileSystem.hpp"
 #include "Thermometer.hpp"
 #include "Network.hpp"
 
 class FireManager
 {
 public:
-  FireManager(Power *, Thermometer *, Network *);
+  FireManager(
+      Power *,
+      FileSystem *,
+      Thermometer *,
+      Network *);
   void init();
   void update();
 
 private:
   // Hardware and Peripherals
   Power *power;
+  FileSystem *filesystem;
   Thermometer *thermometer;
   Network *network;
 

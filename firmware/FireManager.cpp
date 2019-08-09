@@ -1,8 +1,13 @@
 #include "FireManager.hpp"
 
-FireManager::FireManager(Power *power, Thermometer *thermometer, Network *network)
+FireManager::FireManager(
+    Power *power,
+    FileSystem *filesystem,
+    Thermometer *thermometer,
+    Network *network)
 {
   this->power = power;
+  this->filesystem = filesystem;
   this->thermometer = thermometer;
   this->network = network;
 }
@@ -10,8 +15,9 @@ FireManager::FireManager(Power *power, Thermometer *thermometer, Network *networ
 void FireManager::init()
 {
   power->init();
+  filesystem->init();
   thermometer->init();
-  network->init();
+  network->init(filesystem);
 
   verify();
 }

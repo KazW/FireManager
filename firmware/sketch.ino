@@ -1,10 +1,15 @@
 #include "FireManager.hpp"
 
 Power power = Power(D0);
+FileSystem filesystem = FileSystem();
 Thermometer thermometer = Thermometer(D5, D7, D6);
 Network network = Network();
 
-FireManager fireManager = FireManager(&power, &thermometer, &network);
+FireManager firemanager = FireManager(
+    &power,
+    &filesystem,
+    &thermometer,
+    &network);
 
 void setup()
 {
@@ -14,10 +19,10 @@ void setup()
   Serial.println("");
   Serial.println("Booted.");
 
-  fireManager.init();
+  firemanager.init();
 }
 
 void loop()
 {
-  fireManager.update();
+  firemanager.update();
 }
