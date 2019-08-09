@@ -18,8 +18,7 @@ private:
   byte pinCS;
   byte pinSCK;
   Thermocouple *thermocouple;
-  int initDelay = 1000;
-  unsigned long sampleRate = 1000;
+  int sampleRate = 1000;
   unsigned long lastSample;
   double temperature;
 };

@@ -10,7 +10,6 @@ Thermometer::Thermometer(byte pinSCK, byte pinCS, byte pinSO)
 void Thermometer::init()
 {
   this->thermocouple = new MAX6675_Thermocouple(pinSCK, pinCS, pinSO);
-  delay(initDelay);
   sample();
   this->lastSample = millis();
 }
