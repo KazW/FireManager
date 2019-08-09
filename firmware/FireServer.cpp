@@ -22,7 +22,7 @@ void FireServer::update()
     this->serverStarted = true;
     Serial.println("Web server started!");
   }
-  else
+  else if (serverStarted)
   {
     server->handleClient();
   }
