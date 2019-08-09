@@ -5,13 +5,15 @@ FileSystem filesystem = FileSystem();
 Parser parser = Parser();
 Thermometer thermometer = Thermometer(D5, D7, D6);
 Network network = Network();
+FireServer server = FireServer();
 
 FireManager firemanager = FireManager(
     &power,
     &filesystem,
     &parser,
     &thermometer,
-    &network);
+    &network,
+    &server);
 
 void setup()
 {

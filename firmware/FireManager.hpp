@@ -5,6 +5,7 @@
 #include "Parser.hpp"
 #include "Thermometer.hpp"
 #include "Network.hpp"
+#include "FireServer.hpp"
 
 class FireManager
 {
@@ -14,7 +15,8 @@ public:
       FileSystem *,
       Parser *,
       Thermometer *,
-      Network *);
+      Network *,
+      FireServer *);
   void init();
   void update();
 
@@ -29,6 +31,7 @@ private:
   Parser *parser;
   Thermometer *thermometer;
   Network *network;
+  FireServer *server;
 
   // State
   bool alarm;

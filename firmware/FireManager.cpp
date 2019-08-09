@@ -5,13 +5,15 @@ FireManager::FireManager(
     FileSystem *filesystem,
     Parser *parser,
     Thermometer *thermometer,
-    Network *network)
+    Network *network,
+    FireServer *server)
 {
   this->power = power;
   this->filesystem = filesystem;
   this->parser = parser;
   this->thermometer = thermometer;
   this->network = network;
+  this->server = server;
 }
 
 void FireManager::init()
@@ -21,6 +23,7 @@ void FireManager::init()
   parser->init(filesystem);
   thermometer->init();
   network->init(filesystem, parser);
+  server->init();
 
   verify();
 }
@@ -48,6 +51,7 @@ void FireManager::update()
 
   // Sleep or loop
   network->update();
+  server->update();
   power->update();
 }
 
