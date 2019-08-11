@@ -6,6 +6,9 @@ void FileSystem::init()
 
   if (!SPIFFS.exists(configDir))
     SPIFFS.mkdir(configDir);
+
+  if (!SPIFFS.exists(webDir))
+    SPIFFS.mkdir(webDir);
 }
 
 bool FileSystem::wifiConfigured()
@@ -13,12 +16,31 @@ bool FileSystem::wifiConfigured()
   return SPIFFS.exists(wifiConfigFile);
 }
 
-char *FileSystem::getWifiConfig()
+String FileSystem::getWifiConfig()
 {
   File configFile = SPIFFS.open(wifiConfigFile, "r");
-  int configSize = configFile.size();
+  String config = configFile.readString();
+  configFile.close();
+  return config;
+}
 
-  std::unique_ptr<char[]> buf(new char[configSize]);
-  configFile.readBytes(buf.get(), configSize);
-  return buf.get();
+bool FileSystem::setWifiConfig(String newConfig)
+{
+  File configFile = SPIFFS.open(wifiConfigFile, "w");
+  bool result;
+  if (configFile.print(newConfig))
+  {
+    result = true;
+  }
+  else
+  {
+    result = false;
+  }
+  configFile.close();
+  return result;
+}
+
+char *FileSystem::getWebDir()
+{
+  return webDir;
 }

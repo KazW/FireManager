@@ -7,9 +7,12 @@ class FileSystem
 public:
   void init();
   bool wifiConfigured();
-  char *getWifiConfig();
+  String getWifiConfig();
+  bool setWifiConfig(String);
+  char *getWebDir();
 
 private:
   char *configDir = "/config";
+  char *webDir = "/web";
   char *wifiConfigFile = "/config/wifi.json";
 };

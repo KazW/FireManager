@@ -69,7 +69,8 @@ void Network::startWiFiAp()
 
 void Network::startWiFiClient()
 {
-  this->config = this->parser->parseWifiConfig();
+  this->config = this->parser->parseAndCastWifiConfig(
+      this->filesystem->getWifiConfig());
   this->hostname = config.host;
 
   WiFi.mode(WIFI_STA);

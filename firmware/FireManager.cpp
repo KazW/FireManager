@@ -20,10 +20,9 @@ void FireManager::init()
 {
   power->init();
   filesystem->init();
-  parser->init(filesystem);
   thermometer->init();
   network->init(filesystem, parser);
-  server->init(filesystem, network);
+  server->init(filesystem, network, parser);
 
   verify();
 }

@@ -1,16 +1,17 @@
 #pragma once
 #include <Arduino.h>
 #include <ArduinoJson.h>
-#include "FileSystem.hpp"
 #include "Types.hpp"
 
 class Parser
 {
 public:
-  void init(FileSystem *);
-  wifiConfig parseWifiConfig();
+  ArduinoJson6113_00000::DynamicJsonDocument parseWifiConfig(String);
+  ArduinoJson6113_00000::DynamicJsonDocument getWifiConfigBuffer();
+  wifiConfig castWifiConfig(ArduinoJson6113_00000::DynamicJsonDocument);
+  wifiConfig parseAndCastWifiConfig(String);
+  int getwifiConfigSize();
 
 private:
-  FileSystem *filesystem;
-  int configJSONSize = JSON_OBJECT_SIZE(3) + 229;
+  int wifiConfigSize = JSON_OBJECT_SIZE(3) + 189;
 };
