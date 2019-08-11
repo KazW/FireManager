@@ -1,18 +1,13 @@
 <script>
+  import Router from "svelte-spa-router";
   import "../css/main.scss";
-  import { Button } from "svelma";
-  import { Icon } from "svelma";
-  export let name;
+  export let routes;
 </script>
 
-<style>
-  h1 {
-    color: purple;
-  }
-</style>
-
-<h1>Hello {name}!</h1>
-<Button type="primary">I'm a Button!</Button>
-<Icon pack="fab" size="is-large" icon="github" />
-<Icon pack="fas" size="is-large" icon="download" />
-<Icon pack="far" size="is-large" icon="angry" />
+<section class="hero is-dark is-fullheight">
+  <div class="hero-body">
+    <div class="container">
+      <Router {routes} />
+    </div>
+  </div>
+</section>

@@ -7,6 +7,7 @@ import htmlTemplate from 'rollup-plugin-generate-html-template';
 import copy from 'rollup-plugin-copy';
 import typescript from 'rollup-plugin-typescript';
 import postcss from 'rollup-plugin-postcss';
+import replace from 'rollup-plugin-replace';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -69,6 +70,9 @@ export default {
     typescript(),
     postcss({
       extract: true
+    }),
+    replace({
+      __API_URL__: production ? '' : process.env.API_URL,
     })
   ],
   watch: {
