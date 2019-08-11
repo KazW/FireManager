@@ -129,7 +129,7 @@
         If the Status LED is flashing yellow, the FireManager was not able to
         connect to the WiFi network. Place the switch into the "stand alone"
         position and refresh this page after reconnecting to the FireManager
-        wifi network.
+        WiFi network.
       </div>
     </section>
     <footer class="modal-card-foot" />
