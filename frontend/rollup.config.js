@@ -8,6 +8,7 @@ import copy from 'rollup-plugin-copy';
 import typescript from 'rollup-plugin-typescript';
 import postcss from 'rollup-plugin-postcss';
 import replace from 'rollup-plugin-replace';
+import gzip from 'rollup-plugin-gzip'
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -73,7 +74,8 @@ export default {
     }),
     replace({
       __API_URL__: production ? '' : process.env.API_URL,
-    })
+    }),
+    production && gzip({ filter: /\.(js|woff|woff2|json|css|png|html)$/ })
   ],
   watch: {
     clearScreen: false

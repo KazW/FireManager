@@ -167,6 +167,7 @@ bool FireServer::handleFileRead(String path)
     {
       path += ".gz";
       server->sendHeader("Content-Encoding", "gzip");
+      Serial.println(String("\tSending Gzip'd version: ") + path);
     };
     File file = SPIFFS.open(path, "r");
     server->sendHeader("Content-Length", String(file.size()));
