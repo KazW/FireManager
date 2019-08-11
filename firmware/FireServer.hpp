@@ -4,17 +4,19 @@
 #include "FileSystem.hpp"
 #include "Network.hpp"
 #include "Parser.hpp"
+#include "Thermometer.hpp"
 
 class FireServer
 {
 public:
-  void init(FileSystem *, Network *, Parser *);
+  void init(FileSystem *, Network *, Parser *, Thermometer *);
   void update();
 
 private:
   FileSystem *filesystem;
   Network *network;
   Parser *parser;
+  Thermometer *thermometer;
   ESP8266WebServer *server;
   int serverPort = 80;
   bool serverStarted;
@@ -24,4 +26,5 @@ private:
   String getContentType(String *);
   void handleSetWifiConfig();
   void handleGetWifiConfig();
+  void handleGetStatus();
 };

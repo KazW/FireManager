@@ -1,11 +1,23 @@
 #include "FireServer.hpp"
 
-void FireServer::init(FileSystem *filesystem, Network *network, Parser *parser)
+void FireServer::init(FileSystem *filesystem, Network *network, Parser *parser, Thermometer *thermometer)
 {
   this->filesystem = filesystem;
   this->network = network;
   this->parser = parser;
+  this->thermometer = thermometer;
   this->server = new ESP8266WebServer(serverPort);
+
+  server->on("/api/status", [this]() {
+    if (server->method() == HTTP_GET)
+    {
+      this->handleGetStatus();
+    }
+    else
+    {
+      this->handleNotFound();
+    }
+  });
 
   server->on("/api/wifi", [this]() {
     if (server->method() == HTTP_GET)
@@ -38,6 +50,22 @@ void FireServer::update()
   {
     server->handleClient();
   }
+}
+
+void FireServer::handleGetStatus()
+{
+  const size_t capacity = JSON_OBJECT_SIZE(4) + 106;
+  DynamicJsonDocument responseBuffer(capacity);
+  String response = "";
+
+  responseBuffer["temperature"] = thermometer->getTemperature();
+  responseBuffer["battery"] = 99;
+  responseBuffer["wifiClient"] = network->wifiClient();
+  responseBuffer["standAlone"] = false;
+
+  serializeJson(responseBuffer, response);
+  server->sendHeader("Content-Length", String(response.length()));
+  server->send(200, "application/json", response);
 }
 
 void FireServer::handleSetWifiConfig()
