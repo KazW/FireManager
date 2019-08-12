@@ -3,14 +3,16 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceRoot}/firmware",
+                "${workspaceRoot}/FireManager_firmware",
                 "C:\\Users\\${env:USERNAME}\\Documents\\Arduino\\libraries\\ArduinoJson\\src",
-                "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp8266\\tools\\**",
-                "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.5.2\\**",
+                "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\1.0.2\\**",
+                "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp32\\tools\\**",
                 "C:\\Users\\${env:USERNAME}\\Documents\\Arduino\\libraries\\MAX6675_Thermocouple",
                 "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino",
                 "C:\\Program Files (x86)\\Arduino\\hardware\\tools\\avr\\avr\\include",
-                "C:\\Program Files (x86)\\Arduino\\hardware\\tools\\avr\\i686-w64-mingw32\\avr\\include"
+                "C:\\Program Files (x86)\\Arduino\\hardware\\tools\\avr\\i686-w64-mingw32\\avr\\include",
+                "C:\\Users\\theka\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\1.0.2\\**",
+                "C:\\Users\\theka\\AppData\\Local\\Arduino15\\packages\\esp32\\tools\\**"
             ],
             "forcedInclude": [],
             "intelliSenseMode": "msvc-x64",
@@ -20,11 +22,11 @@
             "browse": {
                 "limitSymbolsToIncludedHeaders": false,
                 "path": [
-                    "${workspaceRoot}/firmware",
+                    "${workspaceRoot}/FireManager_firmware",
                     "C:\\Users\\${env:USERNAME}\\Documents\\Arduino\\libraries\\ArduinoJson\\src",
                     "C:\\Users\\${env:USERNAME}\\Documents\\Arduino\\libraries\\MAX6675_Thermocouple",
-                    "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp8266\\tools\\**",
-                    "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.5.2\\**",
+                    "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\1.0.2\\**",
+                    "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp32\\tools\\**",
                     "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino",
                     "C:\\Program Files (x86)\\Arduino\\hardware\\tools\\avr\\avr\\include",
                     "C:\\Program Files (x86)\\Arduino\\hardware\\tools\\avr\\i686-w64-mingw32\\avr\\include"
@@ -38,26 +40,24 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceRoot}/firmware",
+                "${workspaceRoot}/FireManager_firmware",
                 "/home/${env:USERNAME}/Arduino/libraries/ArduinoJson/src",
                 "/home/${env:USERNAME}/Arduino/libraries/MAX6675_Thermocouple",
-                "/home/${env:USERNAME}/.arduino15/packages/esp8266/hardware/esp8266/2.5.2/**",
-                "/home/${env:USERNAME}/.arduino15/packages/esp8266/tools/**",
+                "/home/${env:USERNAME}/.arduino15/packages/esp32/hardware/esp32/1.0.2/**",
+                "/home/${env:USERNAME}/.arduino15/packages/esp32/tools/**",
                 "/usr/share/arduino/hardware/arduino/avr/cores/arduino"
             ],
-            "forcedInclude": [
-                "/home/${env:USERNAME}/.arduino15/packages/esp8266/hardware/esp8266/2.5.2/cores/esp8266/Arduino.h"
-            ],
+            "forcedInclude": [],
             "cStandard": "c11",
             "cppStandard": "c++17",
             "browse": {
                 "limitSymbolsToIncludedHeaders": false,
                 "path": [
-                    "${workspaceRoot}/firmware",
+                    "${workspaceRoot}/FireManager_firmware",
                     "/home/${env:USERNAME}/Arduino/libraries/ArduinoJson/src",
                     "/home/${env:USERNAME}/Arduino/libraries/MAX6675_Thermocouple",
-                    "/home/${env:USERNAME}/.arduino15/packages/esp8266/hardware/esp8266/2.5.2/**",
-                    "/home/${env:USERNAME}/.arduino15/packages/esp8266/tools/**"
+                    "/home/${env:USERNAME}/.arduino15/packages/esp32/hardware/esp32/1.0.2/**",
+                    "/home/${env:USERNAME}/.arduino15/packages/esp32/tools/**"
                 ]
             },
             "defines": [

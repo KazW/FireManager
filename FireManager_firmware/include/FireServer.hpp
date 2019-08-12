@@ -1,10 +1,10 @@
 #pragma once
 #include <Arduino.h>
-#include <ESP8266WebServer.h>
-#include "FileSystem.hpp"
-#include "Network.hpp"
-#include "Parser.hpp"
-#include "Thermometer.hpp"
+#include <WebServer.h>
+#include "../include/FileSystem.hpp"
+#include "../include/Network.hpp"
+#include "../include/Parser.hpp"
+#include "../include/Thermometer.hpp"
 
 class FireServer
 {
@@ -17,7 +17,7 @@ private:
   Network *network;
   Parser *parser;
   Thermometer *thermometer;
-  ESP8266WebServer *server;
+  WebServer *server;
   int serverPort = 80;
   bool serverStarted;
 

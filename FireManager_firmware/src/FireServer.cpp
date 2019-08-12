@@ -1,4 +1,4 @@
-#include "FireServer.hpp"
+#include "../include/FireServer.hpp"
 
 void FireServer::init(FileSystem *filesystem, Network *network, Parser *parser, Thermometer *thermometer)
 {
@@ -6,55 +6,36 @@ void FireServer::init(FileSystem *filesystem, Network *network, Parser *parser, 
   this->network = network;
   this->parser = parser;
   this->thermometer = thermometer;
-  this->server = new ESP8266WebServer(serverPort);
+  this->server = new WebServer(serverPort);
 
-  server->on("/api/status", [this]() {
-    if (server->method() == HTTP_GET)
-    {
-      this->handleGetStatus();
-    }
-    else
-    {
-      this->handleNotFound();
-    }
+  server->on("/api/status", HTTP_GET, [this]() {
+    this->handleGetStatus();
   });
 
-  server->on("/api/wifi", [this]() {
-    if (server->method() == HTTP_GET)
-    {
-      this->handleGetWifiConfig();
-    }
-    else if (server->method() == HTTP_POST)
-    {
-      this->handleSetWifiConfig();
-    }
-    else
-    {
-      this->handleNotFound();
-    }
+  server->on("/api/wifi", HTTP_GET, [this]() {
+    this->handleGetWifiConfig();
   });
+
+  server->on("/api/wifi", HTTP_POST, [this]() {
+    this->handleSetWifiConfig();
+  });
+
   server->onNotFound([this]() {
     this->handleNotFound();
   });
+
+  server->begin();
+  Serial.println("Web server started!");
 }
 
 void FireServer::update()
 {
-  if (!serverStarted && network->online())
-  {
-    server->begin();
-    this->serverStarted = true;
-    Serial.println("Web server started!");
-  }
-  else if (serverStarted)
-  {
-    server->handleClient();
-  }
+  server->handleClient();
 }
 
 void FireServer::handleGetStatus()
 {
-  const size_t capacity = JSON_OBJECT_SIZE(4) + 106;
+  const int capacity = JSON_OBJECT_SIZE(4) + 106;
   DynamicJsonDocument responseBuffer(capacity);
   String response = "";
 
@@ -64,7 +45,6 @@ void FireServer::handleGetStatus()
   responseBuffer["standAlone"] = false;
 
   serializeJson(responseBuffer, response);
-  server->sendHeader("Content-Length", String(response.length()));
   server->send(200, "application/json", response);
 }
 
@@ -80,7 +60,6 @@ void FireServer::handleSetWifiConfig()
     responseBuffer["error"] = true;
     responseBuffer["message"] = "request body too large";
     serializeJson(responseBuffer, response);
-    server->sendHeader("Content-Length", String(response.length()));
     server->send(413, "application/json", response);
     return;
   }
@@ -102,7 +81,6 @@ void FireServer::handleSetWifiConfig()
     responseBuffer["error"] = true;
     responseBuffer["message"] = "unable to save config";
     serializeJson(responseBuffer, response);
-    server->sendHeader("Content-Length", String(response.length()));
     server->send(500, "application/json", response);
   }
 }
@@ -110,7 +88,7 @@ void FireServer::handleSetWifiConfig()
 void FireServer::handleGetWifiConfig()
 {
   ArduinoJson6113_00000::DynamicJsonDocument config = parser->getWifiConfigBuffer();
-  if (filesystem->wifiConfigured())
+  if (filesystem->wifiClientConfigured())
   {
     deserializeJson(config, filesystem->getWifiConfig());
     String password = config["password"];
@@ -125,7 +103,6 @@ void FireServer::handleGetWifiConfig()
 
   String message = "";
   serializeJson(config, message);
-  server->sendHeader("Content-Length", String(message.length()));
   server->send(200, "application/json", message);
 }
 
@@ -149,7 +126,6 @@ void FireServer::handleNotFound()
     message += " " + server->argName(i) + ": " + server->arg(i) + "\n";
   }
 
-  server->sendHeader("Content-Length", String(message.length()));
   server->send(404, "text/plain", message);
 }
 
@@ -157,26 +133,30 @@ bool FireServer::handleFileRead(String path)
 {
   path = filesystem->getWebDir() + path;
   Serial.println("handleFileRead: " + path);
+
   if (path.endsWith("/"))
     path += "index.html";
-  String contentType = getContentType(&path);
+
   String pathWithGz = path + ".gz";
   if (SPIFFS.exists(pathWithGz) || SPIFFS.exists(path))
   {
+    String contentType = getContentType(&path);
     if (SPIFFS.exists(pathWithGz))
     {
       path += ".gz";
       server->sendHeader("Content-Encoding", "gzip");
-      Serial.println(String("\tSending Gzip'd version: ") + path);
+      Serial.println(String("Sending Gzip'd version: ") + path);
     };
+    Serial.println(String("Opening File: ") + path);
     File file = SPIFFS.open(path, "r");
-    server->sendHeader("Content-Length", String(file.size()));
-    size_t sent = server->streamFile(file, contentType);
+    Serial.println(String("Opened File: ") + path);
+    server->streamFile(file, contentType);
     file.close();
-    Serial.println(String("\tSent file: ") + path);
+    Serial.println(String("Sent file: ") + path);
     return true;
   }
-  Serial.println(String("\tFile Not Found: ") + path);
+
+  Serial.println(String("File Not Found: ") + path);
   return false;
 }
 

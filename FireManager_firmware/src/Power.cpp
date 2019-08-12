@@ -1,4 +1,4 @@
-#include "Power.hpp"
+#include "../include/Power.hpp"
 
 Power::Power(byte pin)
 {
@@ -7,7 +7,7 @@ Power::Power(byte pin)
 
 void Power::init()
 {
-  pinMode(pin, WAKEUP_PULLUP);
+  // pinMode(pin, WAKEUP_PULLUP);
 }
 
 void Power::update()
@@ -28,7 +28,7 @@ bool Power::lowBattery()
 
 void Power::sleepNow(unsigned long duration)
 {
-  ESP.deepSleep(duration);
+  // ESP.deepSleep(duration);
   delay(deepSleepDelay);
 }
 

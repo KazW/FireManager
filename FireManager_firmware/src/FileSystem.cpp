@@ -1,8 +1,8 @@
-#include "FileSystem.hpp"
+#include "../include/FileSystem.hpp"
 
 void FileSystem::init()
 {
-  SPIFFS.begin();
+  SPIFFS.begin(true);
 
   if (!SPIFFS.exists(configDir))
     SPIFFS.mkdir(configDir);
@@ -11,7 +11,7 @@ void FileSystem::init()
     SPIFFS.mkdir(webDir);
 }
 
-bool FileSystem::wifiConfigured()
+bool FileSystem::wifiClientConfigured()
 {
   return SPIFFS.exists(wifiConfigFile);
 }

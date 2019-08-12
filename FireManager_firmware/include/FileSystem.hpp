@@ -1,12 +1,12 @@
 #pragma once
 #include <Arduino.h>
-#include <FS.h>
+#include <SPIFFS.h>
 
 class FileSystem
 {
 public:
   void init();
-  bool wifiConfigured();
+  bool wifiClientConfigured();
   String getWifiConfig();
   bool setWifiConfig(String);
   char *getWebDir();

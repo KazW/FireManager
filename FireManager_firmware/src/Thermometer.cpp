@@ -1,4 +1,4 @@
-#include "Thermometer.hpp"
+#include "../include/Thermometer.hpp"
 
 Thermometer::Thermometer(byte pinSCK, byte pinCS, byte pinSO)
 {
@@ -12,6 +12,7 @@ void Thermometer::init()
   this->thermocouple = new MAX6675_Thermocouple(pinSCK, pinCS, pinSO);
   sample();
   this->lastSample = millis();
+  Serial.println("Initial temperature: " + String(temperature) + "F");
 }
 
 void Thermometer::update()
@@ -26,8 +27,6 @@ void Thermometer::update()
 void Thermometer::sample()
 {
   this->temperature = thermocouple->readFahrenheit();
-  Serial.print("F = ");
-  Serial.println(temperature);
 }
 
 bool Thermometer::shouldSample()
