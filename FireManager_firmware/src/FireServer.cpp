@@ -5,14 +5,17 @@ void FireServer::init(
     FileSystem *filesystem,
     Network *network,
     Parser *parser,
-    Thermometer *thermometer)
+    Thermometer *thermometer,
+    Blower *blower)
 {
   this->power = power;
   this->filesystem = filesystem;
   this->network = network;
   this->parser = parser;
   this->thermometer = thermometer;
+  this->blower = blower;
   this->server = new AsyncWebServer(serverPort);
+
   DefaultHeaders::Instance().addHeader("Server", "FireServer 0.1");
   server->serveStatic("/", SPIFFS, filesystem->getWebDir())
       .setDefaultFile("index.html");
@@ -43,12 +46,12 @@ void FireServer::update() {}
 void FireServer::handleGetStatus(AsyncWebServerRequest *request)
 {
   String response = "";
-  DynamicJsonDocument responseBuffer(JSON_OBJECT_SIZE(4) + 106);
+  DynamicJsonDocument responseBuffer(JSON_OBJECT_SIZE(4) + 112);
 
   responseBuffer["temperature"] = thermometer->getTemperature();
-  responseBuffer["battery"] = 99;
+  responseBuffer["batteryLevel"] = power->getBatteryLevel();
   responseBuffer["wifiClient"] = network->wifiClient();
-  responseBuffer["standAlone"] = false;
+  responseBuffer["blowerLevel"] = blower->getLevel();
 
   serializeJson(responseBuffer, response);
   request->send(200, "application/json", response);

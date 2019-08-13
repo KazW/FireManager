@@ -8,6 +8,7 @@ public:
   void init();
   void update();
   double getBatteryVoltage();
+  byte getBatteryLevel();
   bool lowBattery();
   void setSleepStatus(bool);
   void setSleepTime(unsigned long);

@@ -8,11 +8,18 @@
 #include "../include/Network.hpp"
 #include "../include/Parser.hpp"
 #include "../include/Thermometer.hpp"
+#include "../include/Blower.hpp"
 
 class FireServer
 {
 public:
-  void init(Power *, FileSystem *, Network *, Parser *, Thermometer *);
+  void init(
+      Power *,
+      FileSystem *,
+      Network *,
+      Parser *,
+      Thermometer *,
+      Blower *);
   void update();
 
 private:
@@ -21,6 +28,7 @@ private:
   Network *network;
   Parser *parser;
   Thermometer *thermometer;
+  Blower *blower;
   AsyncWebServer *server;
   int serverPort = 80;
   bool serverStarted;

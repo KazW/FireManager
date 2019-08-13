@@ -21,6 +21,11 @@ double Power::getBatteryVoltage()
   return batteryVoltage;
 }
 
+byte Power::getBatteryLevel()
+{
+  return 99;
+}
+
 bool Power::lowBattery()
 {
   return batteryVoltage <= lowBatteryVoltage;
