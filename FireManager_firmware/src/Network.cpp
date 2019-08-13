@@ -1,7 +1,8 @@
 #include "../include/Network.hpp"
 
-void Network::init(FileSystem *filesystem, Parser *parser)
+void Network::init(Power *power, FileSystem *filesystem, Parser *parser)
 {
+  this->power = power;
   this->filesystem = filesystem;
   this->parser = parser;
   this->clientConfigured = filesystem->wifiClientConfigured();
@@ -60,6 +61,15 @@ void Network::startWiFiClient()
 
   Serial.print("Trying to connect to WiFi: ");
   Serial.println(config.ssid);
+
+  if (WiFi.status() == WL_CONNECTED)
+  {
+    this->wifiClientOnline = true;
+    Serial.print("WiFi Connected to: ");
+    Serial.println(config.ssid);
+    Serial.print("Device IP address: ");
+    Serial.println(WiFi.localIP());
+  }
 }
 
 void Network::startmDNS()
@@ -67,9 +77,16 @@ void Network::startmDNS()
   if (!wifiClientOnline)
     return;
 
+  delay(250);
   this->mDNSOnline = MDNS.begin(hostname);
   if (mDNSOnline)
+  {
     Serial.println("Started mDNS.");
+    MDNS.addService("http", "tcp", 80);
+  }
   else
+  {
     Serial.println("Unable to start mDNS.");
+    power->shouldRestart();
+  }
 }

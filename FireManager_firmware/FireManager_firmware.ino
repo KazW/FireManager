@@ -1,9 +1,4 @@
-#include "include/Power.hpp"
-#include "include/FileSystem.hpp"
-#include "include/Parser.hpp"
-#include "include/Thermometer.hpp"
-#include "include/Network.hpp"
-#include "include/FireServer.hpp"
+#include "FireManager.hpp"
 
 Power power = Power(1);
 FileSystem filesystem = FileSystem();
@@ -22,8 +17,8 @@ void setup()
   power.init();
   filesystem.init();
   thermometer.init();
-  network.init(&filesystem, &parser);
-  server.init(&filesystem, &network, &parser, &thermometer);
+  network.init(&power, &filesystem, &parser);
+  server.init(&power, &filesystem, &network, &parser, &thermometer);
   Serial.println("FireManager Booted.");
 }
 

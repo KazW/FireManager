@@ -11,13 +11,15 @@ public:
   bool lowBattery();
   void setSleepStatus(bool);
   void setSleepTime(unsigned long);
-  void sleepNow(unsigned long);
+  void shouldRestart();
 
 private:
+  bool restart;
   byte pin;
   bool sleepStatus = false;
   unsigned long sleepTime = 60 * 1e6;
   double batteryVoltage = 4.20;
   double lowBatteryVoltage = 3.7;
-  int deepSleepDelay = 500;
+  int powerDelay = 100;
+  void restartNow();
 };

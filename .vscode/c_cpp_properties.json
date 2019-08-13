@@ -4,6 +4,8 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceRoot}/FireManager_firmware",
+                "C:\\Users\\${env:USERNAME}\\Documents\\Arduino\\libraries\\AsyncTCP\\src",
+                "C:\\Users\\${env:USERNAME}\\Documents\\Arduino\\libraries\\ESPAsyncWebServer\\src",
                 "C:\\Users\\${env:USERNAME}\\Documents\\Arduino\\libraries\\ArduinoJson\\src",
                 "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\1.0.2\\**",
                 "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp32\\tools\\**",
@@ -24,6 +26,8 @@
                 "path": [
                     "${workspaceRoot}/FireManager_firmware",
                     "C:\\Users\\${env:USERNAME}\\Documents\\Arduino\\libraries\\ArduinoJson\\src",
+                    "C:\\Users\\${env:USERNAME}\\Documents\\Arduino\\libraries\\AsyncTCP\\src",
+                    "C:\\Users\\${env:USERNAME}\\Documents\\Arduino\\libraries\\ESPAsyncWebServer\\src",
                     "C:\\Users\\${env:USERNAME}\\Documents\\Arduino\\libraries\\MAX6675_Thermocouple",
                     "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\1.0.2\\**",
                     "C:\\Users\\${env:USERNAME}\\AppData\\Local\\Arduino15\\packages\\esp32\\tools\\**",
@@ -41,6 +45,8 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceRoot}/FireManager_firmware",
+                "/home/${env:USERNAME}/Arduino/libraries/AsyncTCP/src",
+                "/home/${env:USERNAME}/Arduino/libraries/ESPAsyncWebServer/src",
                 "/home/${env:USERNAME}/Arduino/libraries/ArduinoJson/src",
                 "/home/${env:USERNAME}/Arduino/libraries/MAX6675_Thermocouple",
                 "/home/${env:USERNAME}/.arduino15/packages/esp32/hardware/esp32/1.0.2/**",
@@ -54,6 +60,8 @@
                 "limitSymbolsToIncludedHeaders": false,
                 "path": [
                     "${workspaceRoot}/FireManager_firmware",
+                    "/home/${env:USERNAME}/Arduino/libraries/AsyncTCP/src",
+                    "/home/${env:USERNAME}/Arduino/libraries/ESPAsyncWebServer/src",
                     "/home/${env:USERNAME}/Arduino/libraries/ArduinoJson/src",
                     "/home/${env:USERNAME}/Arduino/libraries/MAX6675_Thermocouple",
                     "/home/${env:USERNAME}/.arduino15/packages/esp32/hardware/esp32/1.0.2/**",

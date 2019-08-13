@@ -1,6 +1,9 @@
 #pragma once
 #include <Arduino.h>
-#include <WebServer.h>
+#include <AsyncTCP.h>
+#include <ESPAsyncWebServer.h>
+#include <AsyncJson.h>
+#include "../include/Power.hpp"
 #include "../include/FileSystem.hpp"
 #include "../include/Network.hpp"
 #include "../include/Parser.hpp"
@@ -9,22 +12,21 @@
 class FireServer
 {
 public:
-  void init(FileSystem *, Network *, Parser *, Thermometer *);
+  void init(Power *, FileSystem *, Network *, Parser *, Thermometer *);
   void update();
 
 private:
+  Power *power;
   FileSystem *filesystem;
   Network *network;
   Parser *parser;
   Thermometer *thermometer;
-  WebServer *server;
+  AsyncWebServer *server;
   int serverPort = 80;
   bool serverStarted;
 
-  void handleNotFound();
-  bool handleFileRead(String);
-  String getContentType(String *);
-  void handleSetWifiConfig();
-  void handleGetWifiConfig();
-  void handleGetStatus();
+  void handleGetStatus(AsyncWebServerRequest *);
+  void handleNotFound(AsyncWebServerRequest *);
+  void handleSetWifiConfig(AsyncWebServerRequest *, JsonVariant);
+  void handleGetWifiConfig(AsyncWebServerRequest *);
 };

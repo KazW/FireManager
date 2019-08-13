@@ -12,8 +12,8 @@ void Power::init()
 
 void Power::update()
 {
-  if (sleepStatus)
-    sleepNow(sleepTime);
+  if (restart)
+    restartNow();
 }
 
 double Power::getBatteryVoltage()
@@ -26,10 +26,15 @@ bool Power::lowBattery()
   return batteryVoltage <= lowBatteryVoltage;
 }
 
-void Power::sleepNow(unsigned long duration)
+void Power::shouldRestart()
 {
-  // ESP.deepSleep(duration);
-  delay(deepSleepDelay);
+  this->restart = true;
+}
+
+void Power::restartNow()
+{
+  ESP.restart();
+  delay(powerDelay);
 }
 
 void Power::setSleepStatus(bool sleepStatus)

@@ -3,6 +3,7 @@
 #include <WiFi.h>
 #include <WiFiClient.h>
 #include <ESPmDNS.h>
+#include "../include/Power.hpp"
 #include "../include/FileSystem.hpp"
 #include "../include/Parser.hpp"
 #include "../include/Types.hpp"
@@ -10,7 +11,7 @@
 class Network
 {
 public:
-  void init(FileSystem *, Parser *);
+  void init(Power *, FileSystem *, Parser *);
   void update();
   bool wifiClient();
 
@@ -19,6 +20,7 @@ private:
   void startWiFiClient();
   void startmDNS();
 
+  Power *power;
   FileSystem *filesystem;
   Parser *parser;
   WiFiConfig config;
