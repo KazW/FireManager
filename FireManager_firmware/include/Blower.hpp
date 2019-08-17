@@ -9,7 +9,7 @@ public:
   void update();
   const byte min = 0;
   const byte max = 255;
-  byte level = 0;
+  double level = 0;
 
 private:
   byte pin;

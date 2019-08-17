@@ -24,23 +24,25 @@ void Thermostat::init(FileSystem *filesystem, Parser *parser, Blower *blower)
   Serial.println("Initial temperature: " + String(temperature) + "F");
 
   this->pid = new PID(
-      &gains,
       &temperature,
+      &this->blower->level,
       &setPoint,
-      &sampleRate,
-      &this->blower->min,
-      &this->blower->max,
-      &this->blower->level);
+      gains.Kp,
+      gains.Ki,
+      gains.Kd,
+      P_ON_M,
+      DIRECT);
+  this->pid->SetMode(AUTOMATIC);
 }
 
 void Thermostat::update()
 {
-  if (shouldUpdate())
+  if (shouldSample())
   {
     sample();
-    pid->calculate();
     this->lastSample = millis();
   }
+  pid->Compute();
 }
 
 void Thermostat::sample()
@@ -48,7 +50,7 @@ void Thermostat::sample()
   this->temperature = thermocouple->readFahrenheit();
 }
 
-bool Thermostat::shouldUpdate()
+bool Thermostat::shouldSample()
 {
   return millis() - lastSample >= sampleRate;
 }

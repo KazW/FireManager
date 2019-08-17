@@ -4,6 +4,7 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceRoot}/FireManager_firmware",
+                "C:\\Users\\${env:USERNAME}\\Documents\\Arduino\\libraries\\PID",
                 "C:\\Users\\${env:USERNAME}\\Documents\\Arduino\\libraries\\AsyncTCP\\src",
                 "C:\\Users\\${env:USERNAME}\\Documents\\Arduino\\libraries\\ESPAsyncWebServer\\src",
                 "C:\\Users\\${env:USERNAME}\\Documents\\Arduino\\libraries\\ArduinoJson\\src",
@@ -12,9 +13,7 @@
                 "C:\\Users\\${env:USERNAME}\\Documents\\Arduino\\libraries\\MAX6675_Thermocouple",
                 "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino",
                 "C:\\Program Files (x86)\\Arduino\\hardware\\tools\\avr\\avr\\include",
-                "C:\\Program Files (x86)\\Arduino\\hardware\\tools\\avr\\i686-w64-mingw32\\avr\\include",
-                "C:\\Users\\theka\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\1.0.2\\**",
-                "C:\\Users\\theka\\AppData\\Local\\Arduino15\\packages\\esp32\\tools\\**"
+                "C:\\Program Files (x86)\\Arduino\\hardware\\tools\\avr\\i686-w64-mingw32\\avr\\include"
             ],
             "forcedInclude": [],
             "intelliSenseMode": "msvc-x64",
@@ -25,6 +24,7 @@
                 "limitSymbolsToIncludedHeaders": false,
                 "path": [
                     "${workspaceRoot}/FireManager_firmware",
+                    "C:\\Users\\${env:USERNAME}\\Documents\\Arduino\\libraries\\PID",
                     "C:\\Users\\${env:USERNAME}\\Documents\\Arduino\\libraries\\ArduinoJson\\src",
                     "C:\\Users\\${env:USERNAME}\\Documents\\Arduino\\libraries\\AsyncTCP\\src",
                     "C:\\Users\\${env:USERNAME}\\Documents\\Arduino\\libraries\\ESPAsyncWebServer\\src",
@@ -45,6 +45,7 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceRoot}/FireManager_firmware",
+                "/home/${env:USERNAME}/Arduino/libraries/PID",
                 "/home/${env:USERNAME}/Arduino/libraries/AsyncTCP/src",
                 "/home/${env:USERNAME}/Arduino/libraries/ESPAsyncWebServer/src",
                 "/home/${env:USERNAME}/Arduino/libraries/ArduinoJson/src",
@@ -60,6 +61,7 @@
                 "limitSymbolsToIncludedHeaders": false,
                 "path": [
                     "${workspaceRoot}/FireManager_firmware",
+                    "/home/${env:USERNAME}/Arduino/libraries/PID",
                     "/home/${env:USERNAME}/Arduino/libraries/AsyncTCP/src",
                     "/home/${env:USERNAME}/Arduino/libraries/ESPAsyncWebServer/src",
                     "/home/${env:USERNAME}/Arduino/libraries/ArduinoJson/src",

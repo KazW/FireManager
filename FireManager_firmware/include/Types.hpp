@@ -11,14 +11,14 @@ struct WiFiConfig
 typedef struct PIDgains pidGains;
 struct PIDgains
 {
-  float Kp;
-  float Ki;
-  float Kd;
+  double Kp;
+  double Ki;
+  double Kd;
 };
 
 typedef struct ThermostatConfig thermostatConfig;
 struct ThermostatConfig
 {
-  float setPoint;
+  double setPoint;
   pidGains gains;
 };

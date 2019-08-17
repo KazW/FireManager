@@ -7,7 +7,7 @@ public:
   Power(byte);
   void init();
   void update();
-  float batteryVoltage = 4.20;
+  double batteryVoltage = 4.20;
   byte getBatteryLevel();
   bool lowBattery();
   void setSleepStatus(bool);
@@ -19,7 +19,7 @@ private:
   byte pin;
   bool sleepStatus = false;
   unsigned long sleepTime = 60 * 1e6;
-  float lowBatteryVoltage = 3.7;
+  double lowBatteryVoltage = 3.7;
   int powerDelay = 100;
   void restartNow();
 };
