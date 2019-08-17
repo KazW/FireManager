@@ -5,19 +5,19 @@ void FireServer::init(
     FileSystem *filesystem,
     Network *network,
     Parser *parser,
-    Thermometer *thermometer,
+    Thermostat *thermostat,
     Blower *blower)
 {
   this->power = power;
   this->filesystem = filesystem;
   this->network = network;
   this->parser = parser;
-  this->thermometer = thermometer;
+  this->thermostat = thermostat;
   this->blower = blower;
   this->server = new AsyncWebServer(serverPort);
 
   DefaultHeaders::Instance().addHeader("Server", "FireServer 0.1");
-  server->serveStatic("/", SPIFFS, filesystem->getWebDir())
+  server->serveStatic("/", SPIFFS, filesystem->webDir)
       .setDefaultFile("index.html");
 
   server->on("/api/status", HTTP_GET, [this](AsyncWebServerRequest *request) {
@@ -46,12 +46,14 @@ void FireServer::update() {}
 void FireServer::handleGetStatus(AsyncWebServerRequest *request)
 {
   String response = "";
-  DynamicJsonDocument responseBuffer(JSON_OBJECT_SIZE(4) + 112);
+  DynamicJsonDocument responseBuffer(JSON_OBJECT_SIZE(6) + 171);
 
-  responseBuffer["temperature"] = thermometer->getTemperature();
+  responseBuffer["temperature"] = thermostat->temperature;
+  responseBuffer["setPoint"] = thermostat->setPoint;
+  responseBuffer["blowerLevel"] = blower->level;
   responseBuffer["batteryLevel"] = power->getBatteryLevel();
-  responseBuffer["wifiClient"] = network->wifiClient();
-  responseBuffer["blowerLevel"] = blower->getLevel();
+  responseBuffer["wifiConfigured"] = network->clientConfigured;
+  responseBuffer["wifiConnected"] = network->wifiClientOnline;
 
   serializeJson(responseBuffer, response);
   request->send(200, "application/json", response);
@@ -90,7 +92,7 @@ void FireServer::handleSetWifiConfig(AsyncWebServerRequest *request, JsonVariant
   DynamicJsonDocument responseBuffer(responseCapacity);
   String response = "";
 
-  if (rawConfig.length() > parser->getwifiConfigSize())
+  if (rawConfig.length() > parser->wifiConfigSize)
   {
     responseBuffer["error"] = true;
     responseBuffer["message"] = "request body too large";
@@ -99,7 +101,7 @@ void FireServer::handleSetWifiConfig(AsyncWebServerRequest *request, JsonVariant
     return;
   }
 
-  DynamicJsonDocument config(parser->getwifiConfigSize());
+  DynamicJsonDocument config(parser->wifiConfigSize);
   wifiConfig parsedConfig = parser->parseAndCastWifiConfig(rawConfig);
   config["host"] = parsedConfig.host;
   config["ssid"] = parsedConfig.ssid;

@@ -16,11 +16,6 @@ void Power::update()
     restartNow();
 }
 
-double Power::getBatteryVoltage()
-{
-  return batteryVoltage;
-}
-
 byte Power::getBatteryLevel()
 {
   return 99;

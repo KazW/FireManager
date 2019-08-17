@@ -6,13 +6,22 @@ class FileSystem
 {
 public:
   void init();
+  char *webDir = "/web";
+  bool exists(char *);
+  bool exists(const char *);
+
+  const char *wifiConfigFile = "/config/wifi.json";
   bool wifiClientConfigured();
   String getWifiConfig();
   bool setWifiConfig(String);
-  char *getWebDir();
+
+  const char *thermostatConfigFile = "/config/thermostat.json";
+  bool thermostatConfigured();
+  String getThermostatConfig();
+  bool setThermostatConfig(String);
 
 private:
+  String readFile(String);
+  bool writeFile(String, String);
   char *configDir = "/config";
-  char *webDir = "/web";
-  char *wifiConfigFile = "/config/wifi.json";
 };

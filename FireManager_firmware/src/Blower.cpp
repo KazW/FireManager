@@ -13,13 +13,3 @@ void Blower::update()
 {
   ledcWrite(channel, level);
 }
-
-void Blower::setLevel(byte level)
-{
-  this->level = level;
-}
-
-byte Blower::getLevel()
-{
-  return level;
-}

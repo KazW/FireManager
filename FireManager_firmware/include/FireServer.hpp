@@ -7,7 +7,7 @@
 #include "../include/FileSystem.hpp"
 #include "../include/Network.hpp"
 #include "../include/Parser.hpp"
-#include "../include/Thermometer.hpp"
+#include "../include/Thermostat.hpp"
 #include "../include/Blower.hpp"
 
 class FireServer
@@ -18,7 +18,7 @@ public:
       FileSystem *,
       Network *,
       Parser *,
-      Thermometer *,
+      Thermostat *,
       Blower *);
   void update();
 
@@ -27,7 +27,7 @@ private:
   FileSystem *filesystem;
   Network *network;
   Parser *parser;
-  Thermometer *thermometer;
+  Thermostat *thermostat;
   Blower *blower;
   AsyncWebServer *server;
   int serverPort = 80;

@@ -30,11 +30,6 @@ void Network::update()
     startmDNS();
 }
 
-bool Network::wifiClient()
-{
-  return clientConfigured;
-}
-
 void Network::startWiFiAp()
 {
   WiFi.softAPsetHostname(apHost);
@@ -77,7 +72,6 @@ void Network::startmDNS()
   if (!wifiClientOnline)
     return;
 
-  delay(250);
   this->mDNSOnline = MDNS.begin(hostname);
   if (mDNSOnline)
   {

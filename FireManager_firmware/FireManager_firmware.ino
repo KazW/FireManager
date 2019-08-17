@@ -1,10 +1,16 @@
 #include "FireManager.hpp"
 
-Power power = Power(1);
+const byte powerPin = 1;
+const byte thermoSKCpin = 13;
+const byte thermoCSpin = 12;
+const byte thermoSOpin = 14;
+const byte blowerPin = 5;
+
+Power power = Power(powerPin);
 FileSystem filesystem = FileSystem();
 Parser parser = Parser();
-Thermometer thermometer = Thermometer(13, 12, 14);
-Blower blower = Blower(5);
+Thermostat thermostat = Thermostat(thermoSKCpin, thermoCSpin, thermoSOpin);
+Blower blower = Blower(blowerPin);
 Network network = Network();
 FireServer server = FireServer();
 
@@ -18,15 +24,15 @@ void setup()
 
   power.init();
   filesystem.init();
-  thermometer.init();
   blower.init();
+  thermostat.init(&filesystem, &parser, &blower);
   network.init(&power, &filesystem, &parser);
   server.init(
       &power,
       &filesystem,
       &network,
       &parser,
-      &thermometer,
+      &thermostat,
       &blower);
 
   Serial.println("FireManager Booted.");
@@ -34,7 +40,7 @@ void setup()
 
 void loop()
 {
-  thermometer.update();
+  thermostat.update();
   blower.update();
   network.update();
   server.update();

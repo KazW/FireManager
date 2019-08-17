@@ -1,14 +1,14 @@
 #include "../include/Parser.hpp"
 
-ArduinoJson6113_00000::DynamicJsonDocument Parser::getWifiConfigBuffer()
+DynamicJsonDocument Parser::getWifiConfigBuffer()
 {
   DynamicJsonDocument data(wifiConfigSize);
   return data;
 }
 
-ArduinoJson6113_00000::DynamicJsonDocument Parser::parseWifiConfig(String rawConfig)
+DynamicJsonDocument Parser::parseWifiConfig(String rawConfig)
 {
-  ArduinoJson6113_00000::DynamicJsonDocument data = getWifiConfigBuffer();
+  DynamicJsonDocument data = getWifiConfigBuffer();
   Serial.print("Parsing wifi config: ");
   Serial.println(rawConfig);
   deserializeJson(data, rawConfig);
@@ -16,7 +16,7 @@ ArduinoJson6113_00000::DynamicJsonDocument Parser::parseWifiConfig(String rawCon
   return data;
 }
 
-wifiConfig Parser::castWifiConfig(ArduinoJson6113_00000::DynamicJsonDocument data)
+wifiConfig Parser::castWifiConfig(DynamicJsonDocument data)
 {
   wifiConfig config;
 
@@ -32,7 +32,39 @@ wifiConfig Parser::parseAndCastWifiConfig(String config)
   return castWifiConfig(parseWifiConfig(config));
 }
 
-int Parser::getwifiConfigSize()
+DynamicJsonDocument Parser::getThermostatConfigBuffer()
 {
-  return wifiConfigSize;
+  DynamicJsonDocument data(thermostatConfigSize);
+  return data;
+}
+
+DynamicJsonDocument Parser::parseThermostatConfig(String rawConfig)
+{
+  DynamicJsonDocument data = getThermostatConfigBuffer();
+  Serial.print("Parsing thermostat config: ");
+  Serial.println(rawConfig);
+  deserializeJson(data, rawConfig);
+
+  return data;
+}
+
+thermostatConfig Parser::castThermostatConfig(DynamicJsonDocument data)
+{
+  thermostatConfig config;
+  pidGains gains;
+
+  config.setPoint = data["setPoint"] | 250.0;
+
+  JsonObject gainsData = data["gains"];
+  gains.Kp = gainsData["Kp"] | 20.0;
+  gains.Ki = gainsData["Ki"] | 100.0;
+  gains.Kd = gainsData["Kd"] | 30.0;
+
+  config.gains = gains;
+  return config;
+}
+
+thermostatConfig Parser::parseAndCastThermostatConfig(String config)
+{
+  return castThermostatConfig(parseThermostatConfig(config));
 }

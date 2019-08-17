@@ -4,31 +4,36 @@ void FileSystem::init()
 {
   SPIFFS.begin(true);
 
-  if (!SPIFFS.exists(configDir))
+  if (!exists(configDir))
     SPIFFS.mkdir(configDir);
 
-  if (!SPIFFS.exists(webDir))
+  if (!exists(webDir))
     SPIFFS.mkdir(webDir);
 }
 
-bool FileSystem::wifiClientConfigured()
+bool FileSystem::exists(char *fileName)
 {
-  return SPIFFS.exists(wifiConfigFile);
+  return SPIFFS.exists(fileName);
 }
 
-String FileSystem::getWifiConfig()
+bool FileSystem::exists(const char *fileName)
 {
-  File configFile = SPIFFS.open(wifiConfigFile, "r");
-  String config = configFile.readString();
-  configFile.close();
-  return config;
+  return SPIFFS.exists(fileName);
 }
 
-bool FileSystem::setWifiConfig(String newConfig)
+String FileSystem::readFile(String fileName)
 {
-  File configFile = SPIFFS.open(wifiConfigFile, "w");
+  File file = SPIFFS.open(fileName, "r");
+  String contents = file.readString();
+  file.close();
+  return contents;
+}
+
+bool FileSystem::writeFile(String fileName, String contents)
+{
+  File file = SPIFFS.open(fileName, "w");
   bool result;
-  if (configFile.print(newConfig))
+  if (file.print(contents))
   {
     result = true;
   }
@@ -36,11 +41,36 @@ bool FileSystem::setWifiConfig(String newConfig)
   {
     result = false;
   }
-  configFile.close();
+  file.close();
   return result;
 }
 
-char *FileSystem::getWebDir()
+bool FileSystem::wifiClientConfigured()
 {
-  return webDir;
+  return exists(wifiConfigFile);
+}
+
+String FileSystem::getWifiConfig()
+{
+  return readFile(wifiConfigFile);
+}
+
+bool FileSystem::setWifiConfig(String newConfig)
+{
+  return writeFile(wifiConfigFile, newConfig);
+}
+
+bool FileSystem::thermostatConfigured()
+{
+  return exists(thermostatConfigFile);
+}
+
+String FileSystem::getThermostatConfig()
+{
+  return readFile(thermostatConfigFile);
+}
+
+bool FileSystem::setThermostatConfig(String newConfig)
+{
+  return writeFile(thermostatConfigFile, newConfig);
 }

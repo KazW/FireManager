@@ -13,7 +13,9 @@ class Network
 public:
   void init(Power *, FileSystem *, Parser *);
   void update();
-  bool wifiClient();
+  bool wifiApOnline;
+  bool clientConfigured;
+  bool wifiClientOnline;
 
 private:
   void startWiFiAp();
@@ -32,9 +34,6 @@ private:
   IPAddress apGateway = IPAddress(192, 168, 0, 1);
   IPAddress apSubnet = IPAddress(255, 255, 255, 0);
 
-  bool clientConfigured;
   const char *hostname;
-  bool wifiClientOnline;
-  bool wifiApOnline;
   bool mDNSOnline;
 };
