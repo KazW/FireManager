@@ -5,13 +5,14 @@ const byte thermoSKCpin = 13;
 const byte thermoCSpin = 12;
 const byte thermoSOpin = 14;
 const byte blowerPin = 5;
+const byte ledPin = 21;
 
 Power power = Power(powerPin);
 FileSystem filesystem = FileSystem();
 Parser parser = Parser();
 Thermostat thermostat = Thermostat(thermoSKCpin, thermoCSpin, thermoSOpin);
 Blower blower = Blower(blowerPin);
-Network network = Network();
+Network network = Network(ledPin);
 FireServer server = FireServer();
 
 void setup()

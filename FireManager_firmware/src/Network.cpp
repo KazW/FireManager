@@ -1,7 +1,10 @@
 #include "../include/Network.hpp"
 
+Network::Network(byte ledPin) { this->ledPin = ledPin; }
+
 void Network::init(Power *power, FileSystem *filesystem, Parser *parser)
 {
+  pinMode(ledPin, OUTPUT);
   this->power = power;
   this->filesystem = filesystem;
   this->parser = parser;
@@ -77,6 +80,7 @@ void Network::startmDNS()
   {
     Serial.println("Started mDNS.");
     MDNS.addService("http", "tcp", 80);
+    digitalWrite(ledPin, HIGH);
   }
   else
   {

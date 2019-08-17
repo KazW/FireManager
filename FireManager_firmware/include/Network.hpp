@@ -11,6 +11,7 @@
 class Network
 {
 public:
+  Network(byte ledPin);
   void init(Power *, FileSystem *, Parser *);
   void update();
   bool wifiApOnline;
@@ -22,6 +23,7 @@ private:
   void startWiFiClient();
   void startmDNS();
 
+  byte ledPin;
   Power *power;
   FileSystem *filesystem;
   Parser *parser;
