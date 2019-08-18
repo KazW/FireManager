@@ -54,7 +54,7 @@ void FireServer::update() {}
 
 void FireServer::handleGetStatus(AsyncWebServerRequest *request)
 {
-  String response = "";
+  AsyncResponseStream *response = request->beginResponseStream("application/json");
   DynamicJsonDocument responseBuffer(JSON_OBJECT_SIZE(6) + 171);
 
   responseBuffer["temperature"] = thermostat->temperature;
@@ -64,13 +64,13 @@ void FireServer::handleGetStatus(AsyncWebServerRequest *request)
   responseBuffer["wifiConfigured"] = network->clientConfigured;
   responseBuffer["wifiConnected"] = network->wifiClientOnline;
 
-  serializeJson(responseBuffer, response);
-  request->send(200, "application/json", response);
+  serializeJson(responseBuffer, *response);
+  request->send(response);
 }
 
 void FireServer::handleGetWifiConfig(AsyncWebServerRequest *request)
 {
-  String response = "";
+  AsyncResponseStream *response = request->beginResponseStream("application/json");
   DynamicJsonDocument config = parser->getWifiConfigBuffer();
 
   if (filesystem->wifiClientConfigured())
@@ -86,8 +86,8 @@ void FireServer::handleGetWifiConfig(AsyncWebServerRequest *request)
     config["password"] = false;
   }
 
-  serializeJson(config, response);
-  request->send(200, "application/json", response);
+  serializeJson(config, *response);
+  request->send(response);
 }
 
 void FireServer::handleSetWifiConfig(AsyncWebServerRequest *request, JsonVariant jsonBody)
@@ -135,12 +135,12 @@ void FireServer::handleSetWifiConfig(AsyncWebServerRequest *request, JsonVariant
 
 void FireServer::handleGetThermostatSetPoint(AsyncWebServerRequest *request)
 {
+  AsyncResponseStream *response = request->beginResponseStream("application/json");
   const int capacity = JSON_OBJECT_SIZE(1) + 25;
   DynamicJsonDocument doc(capacity);
 
   doc["setPoint"] = this->thermostat->setPoint;
 
-  AsyncResponseStream *response = request->beginResponseStream("application/json");
   serializeJson(doc, *response);
   request->send(response);
 }
