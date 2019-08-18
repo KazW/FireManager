@@ -17,6 +17,7 @@ public:
   bool wifiApOnline;
   bool clientConfigured;
   bool wifiClientOnline;
+  WiFiConfig config;
 
 private:
   void startWiFiAp();
@@ -27,7 +28,6 @@ private:
   Power *power;
   FileSystem *filesystem;
   Parser *parser;
-  WiFiConfig config;
 
   const char *apSSID = "FireManager";
   const char *apPassword = "start-my-fire";

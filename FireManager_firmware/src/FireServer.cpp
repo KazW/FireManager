@@ -71,22 +71,22 @@ void FireServer::handleGetStatus(AsyncWebServerRequest *request)
 void FireServer::handleGetWifiConfig(AsyncWebServerRequest *request)
 {
   AsyncResponseStream *response = request->beginResponseStream("application/json");
-  DynamicJsonDocument config = parser->getWifiConfigBuffer();
+  DynamicJsonDocument doc = parser->getWifiConfigBuffer();
 
-  if (filesystem->wifiClientConfigured())
+  if (network->clientConfigured)
   {
-    deserializeJson(config, filesystem->getWifiConfig());
-    String password = config["password"];
-    config["password"] = password.length() > 0;
+    doc["host"] = this->network->config.host;
+    doc["ssid"] = this->network->config.ssid;
+    doc["password"] = strlen(this->network->config.password) > 0;
   }
   else
   {
-    config["host"] = "";
-    config["ssid"] = "";
-    config["password"] = false;
+    doc["host"] = "";
+    doc["ssid"] = "";
+    doc["password"] = false;
   }
 
-  serializeJson(config, *response);
+  serializeJson(doc, *response);
   request->send(response);
 }
 
@@ -94,9 +94,6 @@ void FireServer::handleSetWifiConfig(AsyncWebServerRequest *request, JsonVariant
 {
   String rawConfig = "";
   serializeJson(jsonBody, rawConfig);
-  Serial.print("Got wifi config post from handler: ");
-  serializeJson(jsonBody, Serial);
-  Serial.println("");
   const int responseCapacity = JSON_OBJECT_SIZE(2) + 90;
   DynamicJsonDocument responseBuffer(responseCapacity);
   String response = "";
@@ -117,7 +114,6 @@ void FireServer::handleSetWifiConfig(AsyncWebServerRequest *request, JsonVariant
   config["password"] = parsedConfig.password;
   String newConfig = "";
   serializeJson(config, newConfig);
-  Serial.println("Cleaned wifi config: " + newConfig);
 
   if (filesystem->setWifiConfig(newConfig))
   {
@@ -177,7 +173,6 @@ void FireServer::handleSetThermostatSetPoint(AsyncWebServerRequest *request, Jso
 void FireServer::handleNotFound(AsyncWebServerRequest *request)
 {
   String path = request->url();
-  Serial.println(String("Serving not found page for: ") + path);
   String message = "File Not Found\n\n";
   message += "URL: ";
   message += request->url();
