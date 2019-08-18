@@ -3,6 +3,7 @@
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 #include <AsyncJson.h>
+#include <ArduinoJson.h>
 #include "../include/Power.hpp"
 #include "../include/FileSystem.hpp"
 #include "../include/Network.hpp"
@@ -34,7 +35,12 @@ private:
   bool serverStarted;
 
   void handleGetStatus(AsyncWebServerRequest *);
-  void handleNotFound(AsyncWebServerRequest *);
-  void handleSetWifiConfig(AsyncWebServerRequest *, JsonVariant);
+
   void handleGetWifiConfig(AsyncWebServerRequest *);
+  void handleSetWifiConfig(AsyncWebServerRequest *, JsonVariant);
+
+  void handleGetThermostatSetPoint(AsyncWebServerRequest *);
+  void handleSetThermostatSetPoint(AsyncWebServerRequest *, JsonVariant);
+
+  void handleNotFound(AsyncWebServerRequest *);
 };

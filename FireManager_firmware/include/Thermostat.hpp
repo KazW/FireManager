@@ -16,6 +16,7 @@ public:
   void update();
   double temperature;
   double setPoint;
+  void saveConfig();
 
 private:
   void sample();

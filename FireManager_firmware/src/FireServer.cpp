@@ -33,6 +33,15 @@ void FireServer::init(
   });
   server->addHandler(setWifiHandler);
 
+  server->on("/api/set-point", HTTP_GET, [this](AsyncWebServerRequest *request) {
+    this->handleGetThermostatSetPoint(request);
+  });
+
+  AsyncCallbackJsonWebHandler *setThermostatSetPointHandler = new AsyncCallbackJsonWebHandler("/api/set-point", [this](AsyncWebServerRequest *request, JsonVariant &json) {
+    this->handleSetThermostatSetPoint(request, json);
+  });
+  server->addHandler(setThermostatSetPointHandler);
+
   server->onNotFound([this](AsyncWebServerRequest *request) {
     this->handleNotFound(request);
   });
@@ -121,6 +130,47 @@ void FireServer::handleSetWifiConfig(AsyncWebServerRequest *request, JsonVariant
     responseBuffer["message"] = "unable to save config";
     serializeJson(responseBuffer, response);
     request->send(500, "application/json", response);
+  }
+}
+
+void FireServer::handleGetThermostatSetPoint(AsyncWebServerRequest *request)
+{
+  const int capacity = JSON_OBJECT_SIZE(1) + 25;
+  DynamicJsonDocument doc(capacity);
+
+  doc["setPoint"] = this->thermostat->setPoint;
+
+  AsyncResponseStream *response = request->beginResponseStream("application/json");
+  serializeJson(doc, *response);
+  request->send(response);
+}
+
+void FireServer::handleSetThermostatSetPoint(AsyncWebServerRequest *request, JsonVariant jsonBody)
+{
+  JsonObject jsonBodyObject = jsonBody.as<JsonObject>();
+  double newSetPoint = jsonBodyObject["setPoint"] | 0;
+
+  if (newSetPoint < 150)
+  {
+    const int responseCapacity = JSON_OBJECT_SIZE(2) + 90;
+    DynamicJsonDocument responseBuffer(responseCapacity);
+    AsyncResponseStream *response = request->beginResponseStream("application/json");
+
+    responseBuffer["error"] = true;
+    responseBuffer["message"] = "Set point must be a number greater than 150.";
+
+    serializeJson(responseBuffer, *response);
+    request->send(response);
+  }
+  else if (newSetPoint == this->thermostat->setPoint)
+  {
+    request->send(202);
+  }
+  else
+  {
+    request->send(202);
+    this->thermostat->setPoint = newSetPoint;
+    this->thermostat->saveConfig();
   }
 }
 

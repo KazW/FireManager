@@ -33,6 +33,9 @@ void Thermostat::init(FileSystem *filesystem, Parser *parser, Blower *blower)
       P_ON_M,
       DIRECT);
   this->pid->SetMode(AUTOMATIC);
+
+  if (!this->filesystem->thermostatConfigured())
+    saveConfig();
 }
 
 void Thermostat::update()
@@ -53,4 +56,19 @@ void Thermostat::sample()
 bool Thermostat::shouldSample()
 {
   return millis() - lastSample >= sampleRate;
+}
+
+void Thermostat::saveConfig()
+{
+  DynamicJsonDocument buffer = parser->getThermostatConfigBuffer();
+
+  buffer["setPoint"] = this->setPoint;
+  JsonObject gainsBuffer = buffer.createNestedObject("gains");
+  gainsBuffer["Kp"] = this->gains.Kp;
+  gainsBuffer["Ki"] = this->gains.Ki;
+  gainsBuffer["Kd"] = this->gains.Kd;
+
+  String output = "";
+  serializeJson(buffer, output);
+  this->filesystem->setThermostatConfig(output);
 }
