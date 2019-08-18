@@ -54,137 +54,144 @@ void FireServer::update() {}
 
 void FireServer::handleGetStatus(AsyncWebServerRequest *request)
 {
-  AsyncResponseStream *response = request->beginResponseStream("application/json");
-  DynamicJsonDocument responseBuffer(JSON_OBJECT_SIZE(6) + 171);
+  AsyncJsonResponse *response = new AsyncJsonResponse();
+  JsonObject responseBody = response->getRoot();
 
-  responseBuffer["temperature"] = thermostat->temperature;
-  responseBuffer["setPoint"] = thermostat->setPoint;
-  responseBuffer["blowerLevel"] = blower->level;
-  responseBuffer["batteryLevel"] = power->getBatteryLevel();
-  responseBuffer["wifiConfigured"] = network->clientConfigured;
-  responseBuffer["wifiConnected"] = network->wifiClientOnline;
+  responseBody["temperature"] = thermostat->temperature;
+  responseBody["setPoint"] = thermostat->setPoint;
+  responseBody["blowerLevel"] = blower->level;
+  responseBody["batteryLevel"] = power->getBatteryLevel();
+  responseBody["wifiConfigured"] = network->clientConfigured;
+  responseBody["wifiConnected"] = network->wifiClientOnline;
 
-  serializeJson(responseBuffer, *response);
+  response->setLength();
   request->send(response);
 }
 
 void FireServer::handleGetWifiConfig(AsyncWebServerRequest *request)
 {
-  AsyncResponseStream *response = request->beginResponseStream("application/json");
-  DynamicJsonDocument doc = parser->getWifiConfigBuffer();
+  AsyncJsonResponse *response = new AsyncJsonResponse();
+  JsonObject responseBody = response->getRoot();
 
   if (network->clientConfigured)
   {
-    doc["host"] = this->network->config.host;
-    doc["ssid"] = this->network->config.ssid;
-    doc["password"] = strlen(this->network->config.password) > 0;
+    responseBody["host"] = this->network->config.host;
+    responseBody["ssid"] = this->network->config.ssid;
+    responseBody["password"] = strlen(this->network->config.password) > 0;
   }
   else
   {
-    doc["host"] = "";
-    doc["ssid"] = "";
-    doc["password"] = false;
+    responseBody["host"] = "";
+    responseBody["ssid"] = "";
+    responseBody["password"] = false;
   }
 
-  serializeJson(doc, *response);
+  response->setLength();
   request->send(response);
 }
 
 void FireServer::handleSetWifiConfig(AsyncWebServerRequest *request, JsonVariant jsonBody)
 {
-  String rawConfig = "";
-  serializeJson(jsonBody, rawConfig);
-  const int responseCapacity = JSON_OBJECT_SIZE(2) + 90;
-  DynamicJsonDocument responseBuffer(responseCapacity);
-  String response = "";
+  JsonObject requestObject = jsonBody.as<JsonObject>();
+  AsyncJsonResponse *response = new AsyncJsonResponse();
+  JsonObject responseBody = response->getRoot();
 
-  if (rawConfig.length() > parser->wifiConfigSize)
+  if (requestObject.size() > parser->wifiConfigSize)
   {
-    responseBuffer["error"] = true;
-    responseBuffer["message"] = "request body too large";
-    serializeJson(responseBuffer, response);
-    request->send(413, "application/json", response);
-    return;
-  }
-
-  DynamicJsonDocument config(parser->wifiConfigSize);
-  wifiConfig parsedConfig = parser->parseAndCastWifiConfig(rawConfig);
-  config["host"] = parsedConfig.host;
-  config["ssid"] = parsedConfig.ssid;
-  config["password"] = parsedConfig.password;
-  String newConfig = "";
-  serializeJson(config, newConfig);
-
-  if (filesystem->setWifiConfig(newConfig))
-  {
-    power->shouldRestart();
-    request->send(202);
+    response->setCode(413);
+    responseBody["updated"] = false;
+    responseBody["error"] = true;
+    responseBody["message"] = "Request body too large.";
   }
   else
   {
-    responseBuffer["error"] = true;
-    responseBuffer["message"] = "unable to save config";
-    serializeJson(responseBuffer, response);
-    request->send(500, "application/json", response);
+    DynamicJsonDocument config(parser->wifiConfigSize);
+    wifiConfig parsedConfig = parser->castWifiConfig(requestObject);
+    config["host"] = parsedConfig.host;
+    config["ssid"] = parsedConfig.ssid;
+    config["password"] = parsedConfig.password;
+    String newConfig = "";
+    serializeJson(config, newConfig);
+
+    if (filesystem->setWifiConfig(newConfig))
+    {
+      power->shouldRestart();
+      responseBody["updated"] = true;
+      responseBody["error"] = false;
+      responseBody["message"] = "WiFi settings saved.";
+    }
+    else
+    {
+      response->setCode(500);
+      responseBody["updated"] = false;
+      responseBody["error"] = true;
+      responseBody["message"] = "Unable to save WiFi settings.";
+    }
   }
+
+  response->setLength();
+  request->send(response);
 }
 
 void FireServer::handleGetThermostatSetPoint(AsyncWebServerRequest *request)
 {
-  AsyncResponseStream *response = request->beginResponseStream("application/json");
-  const int capacity = JSON_OBJECT_SIZE(1) + 25;
-  DynamicJsonDocument doc(capacity);
+  AsyncJsonResponse *response = new AsyncJsonResponse();
+  JsonObject responseBody = response->getRoot();
 
-  doc["setPoint"] = this->thermostat->setPoint;
+  responseBody["setPoint"] = this->thermostat->setPoint;
 
-  serializeJson(doc, *response);
+  response->setLength();
   request->send(response);
 }
 
 void FireServer::handleSetThermostatSetPoint(AsyncWebServerRequest *request, JsonVariant jsonBody)
 {
-  JsonObject jsonBodyObject = jsonBody.as<JsonObject>();
-  double newSetPoint = jsonBodyObject["setPoint"] | 0;
+  JsonObject requestObject = jsonBody.as<JsonObject>();
+  double newSetPoint = requestObject["setPoint"] | 0;
+  AsyncJsonResponse *response = new AsyncJsonResponse();
+  JsonObject responseBody = response->getRoot();
 
   if (newSetPoint < 150)
   {
-    const int responseCapacity = JSON_OBJECT_SIZE(2) + 90;
-    DynamicJsonDocument responseBuffer(responseCapacity);
-    AsyncResponseStream *response = request->beginResponseStream("application/json");
-
-    responseBuffer["error"] = true;
-    responseBuffer["message"] = "Set point must be a number greater than 150.";
-
-    serializeJson(responseBuffer, *response);
-    request->send(response);
+    response->setCode(422);
+    responseBody["updated"] = false;
+    responseBody["error"] = true;
+    responseBody["message"] = "Set point must be a number greater than 150.";
   }
   else if (newSetPoint == this->thermostat->setPoint)
   {
-    request->send(202);
+    responseBody["updated"] = false;
+    responseBody["error"] = false;
+    responseBody["message"] = "Set point not updated.";
   }
   else
   {
-    request->send(202);
+    responseBody["updated"] = true;
+    responseBody["error"] = false;
+    responseBody["message"] = "Set point updated.";
     this->thermostat->setPoint = newSetPoint;
     this->thermostat->saveConfig();
   }
+
+  response->setLength();
+  request->send(response);
 }
 
 void FireServer::handleNotFound(AsyncWebServerRequest *request)
 {
   String path = request->url();
-  String message = "File Not Found\n\n";
-  message += "URL: ";
-  message += request->url();
-  message += "\nMethod: ";
-  message += (request->method() == HTTP_GET) ? "GET" : "POST";
-  message += "\nArguments: ";
-  message += request->args();
-  message += "\n";
+  String responseBody = "File Not Found\n\n";
+  responseBody += "URL: ";
+  responseBody += request->url();
+  responseBody += "\nMethod: ";
+  responseBody += (request->method() == HTTP_GET) ? "GET" : "POST";
+  responseBody += "\nArguments: ";
+  responseBody += request->args();
+  responseBody += "\n";
   for (uint8_t i = 0; i < request->args(); i++)
   {
-    message += " " + request->argName(i) + ": " + request->arg(i) + "\n";
+    responseBody += " " + request->argName(i) + ": " + request->arg(i) + "\n";
   }
 
-  request->send(404, "text/plain", message);
+  request->send(404, "text/plain", responseBody);
 }

@@ -1,9 +1,9 @@
 #pragma once
 #include <Arduino.h>
+#include <ArduinoJson.h>
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 #include <AsyncJson.h>
-#include <ArduinoJson.h>
 #include "../include/Power.hpp"
 #include "../include/FileSystem.hpp"
 #include "../include/Network.hpp"
@@ -43,4 +43,5 @@ private:
   void handleSetThermostatSetPoint(AsyncWebServerRequest *, JsonVariant);
 
   void handleNotFound(AsyncWebServerRequest *);
+  DynamicJsonDocument getResponseBuffer();
 };
