@@ -96,7 +96,7 @@ void FireServer::handleSetWifiConfig(AsyncWebServerRequest *request, JsonVariant
   AsyncJsonResponse *response = new AsyncJsonResponse();
   JsonObject responseBody = response->getRoot();
 
-  if (requestObject.size() > parser->wifiConfigSize)
+  if (measureJson(requestObject) > parser->wifiConfigSize)
   {
     response->setCode(413);
     responseBody["updated"] = false;
@@ -147,7 +147,7 @@ void FireServer::handleGetThermostatSetPoint(AsyncWebServerRequest *request)
 void FireServer::handleSetThermostatSetPoint(AsyncWebServerRequest *request, JsonVariant jsonBody)
 {
   JsonObject requestObject = jsonBody.as<JsonObject>();
-  double newSetPoint = requestObject["setPoint"] | 0;
+  double newSetPoint = requestObject["setPoint"];
   AsyncJsonResponse *response = new AsyncJsonResponse();
   JsonObject responseBody = response->getRoot();
 
