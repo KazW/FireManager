@@ -9,8 +9,6 @@ DynamicJsonDocument Parser::getWifiConfigBuffer()
 DynamicJsonDocument Parser::parseWifiConfig(String rawConfig)
 {
   DynamicJsonDocument data = getWifiConfigBuffer();
-  Serial.print("Parsing wifi config: ");
-  Serial.println(rawConfig);
   deserializeJson(data, rawConfig);
 
   return data;
@@ -41,8 +39,6 @@ DynamicJsonDocument Parser::getThermostatConfigBuffer()
 DynamicJsonDocument Parser::parseThermostatConfig(String rawConfig)
 {
   DynamicJsonDocument data = getThermostatConfigBuffer();
-  Serial.print("Parsing thermostat config: ");
-  Serial.println(rawConfig);
   deserializeJson(data, rawConfig);
 
   return data;
