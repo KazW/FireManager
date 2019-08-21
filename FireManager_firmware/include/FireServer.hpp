@@ -31,8 +31,13 @@ private:
   Thermostat *thermostat;
   Blower *blower;
   AsyncWebServer *server;
-  int serverPort = 80;
-  bool serverStarted;
+  AsyncWebSocket *sockets;
+  const int serverPort = 80;
+  const char *socketsPath = "/sockets";
+  const int eventRate = 1000;
+  unsigned long lastEvent;
+
+  bool shouldSendEvent();
 
   void handleGetStatus(AsyncWebServerRequest *);
 

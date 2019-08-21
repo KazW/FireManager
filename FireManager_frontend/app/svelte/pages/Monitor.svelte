@@ -7,18 +7,34 @@
   let blowerLevel = 0;
 
   onMount(() => {
-    const interval = setInterval(async () => {
-      const res = await fetch("__API_URL__/api/status");
-      let status = await res.json();
+    if ("WebSocket" in window) {
+      let socket = new WebSocket(
+        "ws://" + window.location.hostname + "/sockets"
+      );
+      socket.onmessage = function(evt) {
+        let update = JSON.parse(evt.data);
+        temperature = update.temperature;
+        setPoint = update.setPoint;
+        blowerLevel = update.blowerLevel;
+      };
 
-      temperature = status.temperature;
-      setPoint = status.setPoint;
-      blowerLevel = status.blowerLevel;
-    }, 1000);
+      return () => {
+        socket.close();
+      };
+    } else {
+      const interval = setInterval(async () => {
+        const res = await fetch("__API_URL__/api/status");
+        let status = await res.json();
 
-    return () => {
-      clearInterval(interval);
-    };
+        temperature = status.temperature;
+        setPoint = status.setPoint;
+        blowerLevel = status.blowerLevel;
+      }, 1000);
+
+      return () => {
+        clearInterval(interval);
+      };
+    }
   });
 </script>
 

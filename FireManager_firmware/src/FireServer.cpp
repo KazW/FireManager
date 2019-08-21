@@ -15,12 +15,15 @@ void FireServer::init(
   this->thermostat = thermostat;
   this->blower = blower;
   this->server = new AsyncWebServer(serverPort);
+  this->sockets = new AsyncWebSocket(socketsPath);
 
   DefaultHeaders::Instance().addHeader("Server", "FireServer 0.1");
   DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");
 
   server->serveStatic("/", SPIFFS, filesystem->webDir)
       .setDefaultFile("index.html");
+
+  server->addHandler(sockets);
 
   server->on("/api/status", HTTP_GET, [this](AsyncWebServerRequest *request) {
     this->handleGetStatus(request);
@@ -59,7 +62,29 @@ void FireServer::init(
   Serial.println("Web server started!");
 }
 
-void FireServer::update() {}
+void FireServer::update()
+{
+  if (shouldSendEvent())
+  {
+    const int capacity = JSON_OBJECT_SIZE(4) + 110;
+    DynamicJsonDocument updates(capacity);
+
+    updates["setPoint"] = thermostat->setPoint;
+    updates["temperature"] = thermostat->temperature;
+    updates["blowerLevel"] = blower->level;
+    updates["batteryLevel"] = power->getBatteryLevel();
+
+    String updateEvent = "";
+    serializeJson(updates, updateEvent);
+    sockets->textAll(updateEvent);
+    lastEvent = millis();
+  }
+}
+
+bool FireServer::shouldSendEvent()
+{
+  return millis() - lastEvent >= eventRate;
+}
 
 void FireServer::handleGetStatus(AsyncWebServerRequest *request)
 {
