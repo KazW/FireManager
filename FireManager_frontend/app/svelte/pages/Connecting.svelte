@@ -6,7 +6,7 @@
     const res = await fetch("__API_URL__/api/status");
     let config = await res.json();
 
-    if (config.wifiClient) {
+    if (config.wifiConfigured) {
       replace("/monitor");
     } else {
       replace("/wifi");
