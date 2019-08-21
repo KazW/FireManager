@@ -20,6 +20,7 @@ void Network::update()
   if (clientConfigured && !wifiClientOnline && WiFi.status() == WL_CONNECTED)
   {
     this->wifiClientOnline = true;
+    digitalWrite(ledPin, HIGH);
     Serial.print("WiFi Connected to: ");
     Serial.println(config.ssid);
     Serial.print("Device IP address: ");
@@ -80,11 +81,5 @@ void Network::startmDNS()
   {
     Serial.println("Started mDNS.");
     MDNS.addService("http", "tcp", 80);
-    digitalWrite(ledPin, HIGH);
-  }
-  else
-  {
-    Serial.println("Unable to start mDNS.");
-    power->shouldRestart();
   }
 }
