@@ -36,6 +36,6 @@
     "autobuild": "rollup -c -w",
     "dev": "run-p start:dev autobuild",
     "start": "sirv ../firmware/data/web --single",
-    "start:dev": "sirv ../firmware/data/web --single --dev"
+    "start:dev": "sirv ../FireManager_firmware/data/web --single --dev"
   }
 }
