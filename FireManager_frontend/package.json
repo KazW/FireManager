@@ -32,10 +32,10 @@
     "sirv-cli": "^0.4.4"
   },
   "scripts": {
-    "build": "rollup -c",
+    "build": "rollup -c && rm ../FireManager_firmware/data/web/*.{js,css,map,png,woff,woff2}",
     "autobuild": "rollup -c -w",
     "dev": "run-p start:dev autobuild",
-    "start": "sirv ../firmware/data/web --single",
-    "start:dev": "sirv ../FireManager_firmware/data/web --single --dev"
+    "start": "sirv ../FireManager_firmware/data/web --single",
+    "start:dev": "sirv build --single --dev"
   }
 }

@@ -12,13 +12,20 @@ import gzip from 'rollup-plugin-gzip'
 
 const production = !process.env.ROLLUP_WATCH;
 
+let build_path;
+if (production) {
+  build_path = '../FireManager_firmware/data/web';
+} else {
+  build_path = 'build';
+}
+
 export default {
   input: 'app/ts/main.ts',
   output: {
     sourcemap: !production,
     format: 'iife',
     name: 'app',
-    file: '../FireManager_firmware/data/web/main.js'
+    file: build_path + '/main.js'
   },
   plugins: [
     svelte({
@@ -27,7 +34,7 @@ export default {
       // we'll extract any component CSS out into
       // a separate file — better for performance
       css: css => {
-        css.write('../FireManager_firmware/data/web/bundle.css');
+        css.write(build_path + '/bundle.css');
       }
     }),
 
@@ -44,7 +51,7 @@ export default {
 
     // Watch the `web` directory and refresh the
     // browser on changes when not in production
-    !production && livereload('../FireManager_firmware/data/web'),
+    !production && livereload(build_path),
 
     // If we're building for production (npm run build
     // instead of npm run dev), minify
@@ -55,7 +62,7 @@ export default {
     }),
     copy({
       targets: [
-        { src: 'app/static/*', dest: '../FireManager_firmware/data/web' },
+        { src: 'app/static/*', dest: build_path },
         {
           src: [
             'node_modules/@fortawesome/fontawesome-free/webfonts/*',
@@ -63,7 +70,7 @@ export default {
             '!**/*.eot',
             '!**/*.svg'
           ],
-          dest: '../FireManager_firmware/data/web'
+          dest: build_path
         }
       ],
       verbose: true
@@ -75,7 +82,19 @@ export default {
     replace({
       __API_URL__: production ? '' : process.env.API_URL,
     }),
-    production && gzip({ filter: /\.(js|woff|woff2|json|css|png|html)$/ })
+    production && gzip({
+      additionalFilesDelay: 1,
+      additionalFiles: [
+        '../FireManager_firmware/data/web/bundle.css',
+        '../FireManager_firmware/data/web/favicon.png',
+        '../FireManager_firmware/data/web/fa-solid-900.woff',
+        '../FireManager_firmware/data/web/fa-solid-900.woff2',
+        '../FireManager_firmware/data/web/fa-regular-400.woff',
+        '../FireManager_firmware/data/web/fa-regular-400.woff2',
+        '../FireManager_firmware/data/web/fa-brands-400.woff',
+        '../FireManager_firmware/data/web/fa-brands-400.woff2'
+      ]
+    })
   ],
   watch: {
     clearScreen: false

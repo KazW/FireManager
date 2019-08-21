@@ -1,5 +1,25 @@
 <script>
+  import { onMount } from "svelte";
   import { fly } from "svelte/transition";
+
+  let temperature = 0;
+  let setPoint = 0;
+  let blowerLevel = 0;
+
+  onMount(() => {
+    const interval = setInterval(async () => {
+      const res = await fetch("__API_URL__/api/status");
+      let status = await res.json();
+
+      temperature = status.temperature;
+      setPoint = status.setPoint;
+      blowerLevel = status.blowerLevel;
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  });
 </script>
 
 <style>
@@ -10,6 +30,9 @@
   in:fly={{ y: -200, duration: 1000 }}
   class="columns is-centered is-vcentered">
   <div class="column is-half">
-    <h1 class="title">Monitor</h1>
+    <h1 class="title is-1">Monitor</h1>
+    <p class="subtitle">Temperature: {temperature}&deg;F</p>
+    <p class="subtitle">Set Point: {setPoint}</p>
+    <p class="subtitle">Blower Level: {blowerLevel}</p>
   </div>
 </div>
