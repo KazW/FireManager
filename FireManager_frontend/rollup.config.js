@@ -18,7 +18,7 @@ export default {
     sourcemap: !production,
     format: 'iife',
     name: 'app',
-    file: '../firmware/data/web/main.js'
+    file: '../FireManager_firmware/data/web/main.js'
   },
   plugins: [
     svelte({
@@ -27,7 +27,7 @@ export default {
       // we'll extract any component CSS out into
       // a separate file — better for performance
       css: css => {
-        css.write('../firmware/data/web/bundle.css');
+        css.write('../FireManager_firmware/data/web/bundle.css');
       }
     }),
 
@@ -44,7 +44,7 @@ export default {
 
     // Watch the `web` directory and refresh the
     // browser on changes when not in production
-    !production && livereload('../firmware/data/web'),
+    !production && livereload('../FireManager_firmware/data/web'),
 
     // If we're building for production (npm run build
     // instead of npm run dev), minify
@@ -55,7 +55,7 @@ export default {
     }),
     copy({
       targets: [
-        { src: 'app/static/*', dest: '../firmware/data/web' },
+        { src: 'app/static/*', dest: '../FireManager_firmware/data/web' },
         {
           src: [
             'node_modules/@fortawesome/fontawesome-free/webfonts/*',
@@ -63,7 +63,7 @@ export default {
             '!**/*.eot',
             '!**/*.svg'
           ],
-          dest: '../firmware/data/web'
+          dest: '../FireManager_firmware/data/web'
         }
       ],
       verbose: true

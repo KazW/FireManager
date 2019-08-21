@@ -17,6 +17,8 @@ void FireServer::init(
   this->server = new AsyncWebServer(serverPort);
 
   DefaultHeaders::Instance().addHeader("Server", "FireServer 0.1");
+  DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");
+
   server->serveStatic("/", SPIFFS, filesystem->webDir)
       .setDefaultFile("index.html");
 
@@ -43,7 +45,14 @@ void FireServer::init(
   server->addHandler(setThermostatSetPointHandler);
 
   server->onNotFound([this](AsyncWebServerRequest *request) {
-    this->handleNotFound(request);
+    if (request->method() == HTTP_OPTIONS)
+    {
+      request->send(200);
+    }
+    else
+    {
+      this->handleNotFound(request);
+    }
   });
 
   server->begin();
