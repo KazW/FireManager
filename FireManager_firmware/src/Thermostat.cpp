@@ -20,7 +20,6 @@ void Thermostat::init(FileSystem *filesystem, Parser *parser, Blower *blower)
   this->gains = config.gains;
 
   sample();
-  this->lastSample = millis();
   Serial.println("Initial temperature: " + String(temperature) + "F");
 
   this->pid = new PID(
@@ -41,16 +40,14 @@ void Thermostat::init(FileSystem *filesystem, Parser *parser, Blower *blower)
 void Thermostat::update()
 {
   if (shouldSample())
-  {
     sample();
-    this->lastSample = millis();
-  }
   pid->Compute();
 }
 
 void Thermostat::sample()
 {
   this->temperature = thermocouple->readFahrenheit();
+  this->lastSample = millis();
 }
 
 bool Thermostat::shouldSample()
